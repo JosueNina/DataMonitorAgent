@@ -1,0 +1,21 @@
+2026-10-14T09:30:42.1272059Z TRACE:: ProcessHelper.CreateProcess(): /QuantConnect.DataFleet.JobProcessor/bin/Release/aggregation index ose wd: scripts/a5dd513a22296f57cf02eb16c916a32c6c2cedcc
+2026-10-14T09:30:42.1976279Z TRACE:: Composer(): Loading Assemblies from /QuantConnect.DataFleet.JobProcessor/bin/Release/
+2026-10-14T09:30:42.3732915Z TRACE:: Composer.LoadPartsSafely(/QuantConnect.DataFleet.JobProcessor/bin/Release/System.ClientModel.dll): Skipping TypeLoadException: Could not load type 'Microsoft.Extensions.Logging.LoggerMessageAttribute' from assembly 'Microsoft.Extensions.Logging.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60'.
+2026-10-14T09:30:43.1587694Z TRACE:: Aggregation.Program.Main(): Starting Low Resolution aggregation for Index - OSE
+2026-10-14T09:30:43.1602057Z TRACE:: Aggregation.Program.Main(): Source data folder /temp-output-directory
+2026-10-14T09:30:43.1602194Z TRACE:: Aggregation.Program.Main(): Destination folder /temp-output-directory
+2026-10-14T09:30:43.1640639Z TRACE:: Aggregation(): start date: 1/2/1998 12:00:00 AM. end date: 10/14/2026 12:00:00 AM
+2026-10-14T09:30:43.1643529Z TRACE:: AggregatorManager.GetMinuteFolders(): Listing minute folders to be processed...
+2026-10-14T09:30:43.1686751Z ERROR:: Unhandled exception. System.IO.DirectoryNotFoundException: Could not find a part of the path '/temp-output-directory/index/ose/minute'.
+2026-10-14T09:30:43.1687430Z ERROR::    at System.IO.Enumeration.FileSystemEnumerator`1.CreateDirectoryHandle(String path, Boolean ignoreNotFound)
+2026-10-14T09:30:43.1687552Z ERROR::    at System.IO.Enumeration.FileSystemEnumerator`1.Init()
+2026-10-14T09:30:43.1687676Z ERROR::    at System.IO.Enumeration.FileSystemEnumerable`1..ctor(String directory, FindTransform transform, EnumerationOptions options, Boolean isNormalized)
+2026-10-14T09:30:43.1687820Z ERROR::    at System.IO.Enumeration.FileSystemEnumerableFactory.DirectoryInfos(String directory, String expression, EnumerationOptions options, Boolean isNormalized)
+2026-10-14T09:30:43.1687993Z ERROR::    at System.IO.DirectoryInfo.InternalEnumerateInfos(String path, String searchPattern, SearchTarget searchTarget, EnumerationOptions enumerationOptions)
+2026-10-14T09:30:43.1688079Z ERROR::    at System.IO.DirectoryInfo.GetDirectories(String searchPattern, EnumerationOptions enumerationOptions)
+2026-10-14T09:30:43.1688266Z ERROR::    at QuantConnect.Aggregation.Aggregation.GetTickerFolders() in /LeanCloud/CI.Builder/bin/Release/src/QuantConnect/LeanCloud.Data/QuantConnect.Aggregation/Aggregation.cs:line 147
+2026-10-14T09:30:43.1688397Z ERROR::    at QuantConnect.Aggregation.Aggregation.GetSymbolsToProcess() in /LeanCloud/CI.Builder/bin/Release/src/QuantConnect/LeanCloud.Data/QuantConnect.Aggregation/Aggregation.cs:line 166
+2026-10-14T09:30:43.1688507Z ERROR::    at QuantConnect.Aggregation.Aggregation.Run() in /LeanCloud/CI.Builder/bin/Release/src/QuantConnect/LeanCloud.Data/QuantConnect.Aggregation/Aggregation.cs:line 102
+2026-10-14T09:30:43.1688577Z ERROR::    at QuantConnect.Aggregation.Program.Main(String[] args) in /LeanCloud/CI.Builder/bin/Release/src/QuantConnect/LeanCloud.Data/QuantConnect.Aggregation/Program.cs:line 74
+2026-10-14T09:30:43.3011667Z TRACE:: LeanCloudDataRunner.OnExecute(): Execution /QuantConnect.DataFleet.JobProcessor/bin/Release/aggregation index ose index ose finished with exit code 134
+2026-10-14T09:30:43.3012271Z TRACE:: === JobProcessor.Run(): Job finished exit code 134 ===

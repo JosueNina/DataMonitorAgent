@@ -1,0 +1,16 @@
+2026-10-09T21:12:08.0890660Z TRACE:: ConsumerSynchronizer.ShouldSync(): Job "Binance Funding Rate" for processing date: 2026-10-09 will be synced (deployment ID: 1084852, current time: 2026-10-09 21:12:07, last successful sync: 2026-10-09 20:12:11, crontab: 10 * * * *, next run: 2026-10-09 21:10:00)
+2026-10-09T21:12:08.0929440Z TRACE:: ConsumerSynchronizer.Run(): Received packet, start sync for job: Binance Funding Rate. SynchronizationType: MergeChecksum
+2026-10-09T21:12:08.0938268Z TRACE:: UpdateSyncConsumer(): running query: UPDATE qc_datafleet_job_deployments SET live01_sync = 'In Progress', last_update = '2026-10-09 21:12:08' WHERE id = 1084852
+2026-10-09T21:12:08.1090023Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Begin S3 sync for job: Binance Funding Rate from bucket: transfer.quantconnect.com
+2026-10-09T21:14:09.0622817Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): /temp-output-directory/e42f254f-0d22-48a7-9062-5067efc878eb/20261009_binance_funding_rate_7fcc22a1.tar downloaded 1 of 1 (100.000%).
+2026-10-09T21:14:09.0623535Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Extracting tar file /temp-output-directory/e42f254f-0d22-48a7-9062-5067efc878eb/20261009_binance_funding_rate_7fcc22a1.tar
+2026-10-09T21:14:09.0646732Z TRACE:: ProcessHelper.CreateProcess(): tar xf /temp-output-directory/e42f254f-0d22-48a7-9062-5067efc878eb/20261009_binance_funding_rate_7fcc22a1.tar -C /temp-output-directory/e42f254f-0d22-48a7-9062-5067efc878eb wd: 
+2026-10-09T21:14:09.2316589Z TRACE:: Utils.TryExtractTarArchive(): Unpacking success in 0:00:00.1589859
+2026-10-09T21:14:09.2475652Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Extracted /temp-output-directory/e42f254f-0d22-48a7-9062-5067efc878eb/20261009_binance_funding_rate_7fcc22a1.tar to /temp-output-directory/e42f254f-0d22-48a7-9062-5067efc878eb
+2026-10-09T21:14:09.2476468Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Copying extracted data from /temp-output-directory/e42f254f-0d22-48a7-9062-5067efc878eb to /Data
+2026-10-09T21:14:09.2509123Z TRACE:: ProcessHelper.CreateProcess(): rsync --checksum -a /temp-output-directory/e42f254f-0d22-48a7-9062-5067efc878eb/cryptofuture /Data wd: 
+2026-10-09T21:14:10.6662670Z TRACE:: Utils.Merge(): Move success in 0:00:01.4155945
+2026-10-09T21:14:10.6663922Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Binance Funding Rate sync finished successfully, 1 files downloaded in 0:02:02.5572827.
+2026-10-09T21:14:10.6674358Z TRACE:: ConsumerSynchronizer.Run(): Successfully synced Binance Funding Rate
+2026-10-09T21:14:10.6675788Z TRACE:: UpdateSyncConsumer(): running query: UPDATE qc_datafleet_job_deployments SET live01_sync = 'Complete', last_update = '2026-10-09 21:14:10' WHERE id = 1084852
+2026-10-09T21:14:10.6878182Z TRACE:: ConsumerSynchronizer.SendStatusMessage(): No Telegram message will be sent, since sync success alerts have been disabled

@@ -1,0 +1,973 @@
+{
+ "fetched_at": "2026-10-14T17:58:13+00:00",
+ "datasets": {
+  "123": {
+   "id": 123,
+   "name": "Spectral Tick Flow Signal",
+   "vendor": "QuantConnect",
+   "slug": "spectral-tick-flow-signal",
+   "job_ids": [
+    336,
+    337
+   ]
+  },
+  "36": {
+   "id": 36,
+   "name": "US Equity Coarse Universe",
+   "vendor": "QuantConnect",
+   "slug": "quantconnect-us-coarse-universe-constituents",
+   "job_ids": [
+    4
+   ]
+  },
+  "38": {
+   "id": 38,
+   "name": "US ETF Constituents",
+   "vendor": "QuantConnect",
+   "slug": "quantconnect-us-etf-constituents",
+   "job_ids": [
+    97,
+    100
+   ]
+  },
+  "29": {
+   "id": 29,
+   "name": "US Equity Options",
+   "vendor": "AlgoSeek",
+   "slug": "algoseek-us-equity-options",
+   "job_ids": [
+    4,
+    26
+   ]
+  },
+  "40": {
+   "id": 40,
+   "name": "US Index Options",
+   "vendor": "AlgoSeek",
+   "slug": "algoseek-us-index-options",
+   "job_ids": [
+    4,
+    26,
+    252,
+    291,
+    367,
+    368
+   ]
+  },
+  "33": {
+   "id": 33,
+   "name": "Brain Sentiment Indicator",
+   "vendor": "Brain",
+   "slug": "brain-sentiment-indicator",
+   "job_ids": [
+    87,
+    179
+   ]
+  },
+  "34": {
+   "id": 34,
+   "name": "Brain ML Stock Ranking",
+   "vendor": "Brain",
+   "slug": "brain-ml-stock-ranking",
+   "job_ids": [
+    87,
+    179
+   ]
+  },
+  "35": {
+   "id": 35,
+   "name": "Brain Language Metrics on Company Filings",
+   "vendor": "Brain",
+   "slug": "brain-language-metrics-company-filings",
+   "job_ids": [
+    87,
+    179
+   ]
+  },
+  "9": {
+   "id": 9,
+   "name": "US SEC Filings",
+   "vendor": "Securities and Exchange Commission",
+   "slug": "us-security-exchange-commission-filings",
+   "job_ids": [
+    13,
+    30
+   ]
+  },
+  "149": {
+   "id": 149,
+   "name": "US SEC 13F Whales",
+   "vendor": "Securities and Exchange Commission",
+   "slug": "sec-whales",
+   "job_ids": [
+    380,
+    381
+   ]
+  },
+  "151": {
+   "id": 151,
+   "name": "US Bank Financials",
+   "vendor": "Federal Deposit Insurance Corporation",
+   "slug": "fdic-us-bank-financials",
+   "job_ids": [
+    383,
+    384,
+    385,
+    386
+   ]
+  },
+  "152": {
+   "id": 152,
+   "name": "US Bank Failures",
+   "vendor": "Federal Deposit Insurance Corporation",
+   "slug": "fdic-us-bank-failures",
+   "job_ids": [
+    385,
+    386,
+    387
+   ]
+  },
+  "95": {
+   "id": 95,
+   "name": "Fear and Greed",
+   "vendor": "QuantConnect",
+   "slug": "quantconnect-fear-and-greed",
+   "job_ids": [
+    261,
+    262
+   ]
+  },
+  "99": {
+   "id": 99,
+   "name": "US Interest Rate",
+   "vendor": "Federal Reserve Bank of St Louis",
+   "slug": "us-interest-rate",
+   "job_ids": [
+    19,
+    36
+   ]
+  },
+  "12": {
+   "id": 12,
+   "name": "US Treasury Yield Curve",
+   "vendor": "Treasury Department",
+   "slug": "us-treasury-yield-curve",
+   "job_ids": [
+    19,
+    36
+   ]
+  },
+  "88": {
+   "id": 88,
+   "name": "US Bureau of Labor Statistics (BLS)",
+   "vendor": "Bureau of Labor Statistics",
+   "slug": "us-bureau-of-labor-statistics",
+   "job_ids": [
+    325,
+    366
+   ]
+  }
+ },
+ "jobs": {
+  "13": {
+   "id": 13,
+   "name": "Alternative U.S. Equity SEC",
+   "enabled": true,
+   "schedule": "0 13 * * 2-6",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "primary",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.SEC/commit/dcba1ba901e854f67119c0c1a57d8ac8bbcd0c16",
+   "timeout_minutes": 90,
+   "chain": [
+    {
+     "name": "U.S. Equities Alternative SEC Raw Sync/Processing",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    9
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "30": {
+   "id": 30,
+   "name": "Redundancy Alternative Equity SEC",
+   "enabled": true,
+   "schedule": "0 15 * * 2-6",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "redundancy",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.SEC/commit/dcba1ba901e854f67119c0c1a57d8ac8bbcd0c16",
+   "timeout_minutes": 90,
+   "chain": [
+    {
+     "name": "Redundancy U.S. Equities Alternative SEC - pass",
+     "command": "sleep 1s",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "U.S. Equities Alternative SEC Raw Sync/Processing",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    },
+    {
+     "name": "Raw Sync Push",
+     "command": "sleep 0",
+     "synchronize": 0,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    9
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "4": {
+   "id": 4,
+   "name": "U.S. Equity/Index Options",
+   "enabled": true,
+   "schedule": "0 0 * * Tue,Wed,Thu,Fri,Sat",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "primary",
+   "commit_url": "",
+   "timeout_minutes": 0,
+   "chain": [
+    {
+     "name": "U.S. Equity/Index Options Raw Sync",
+     "command": "bash scripts/sync-price-option-indexoption-usa-raw.sh",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "U.S. Equity/Index Options Price Processing",
+     "command": "price-option-usa",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "U.S. Equity/Index Options Aggregation",
+     "command": "aggregation option usa",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "IndexOption Option Aggregation",
+     "command": "aggregation indexoption usa",
+     "synchronize": 1,
+     "enabled": true
+    },
+    {
+     "name": "U.S. Equity Options Greeks",
+     "command": "dotnet scripts/e732bd60a4a30cc553bff60d4bc6db8f3bf24d46/QuantConnect.DataSource.OptionsUniverseGenerator.dll --security-type=option",
+     "synchronize": 1,
+     "enabled": true
+    },
+    {
+     "name": "U.S. Index Options Greeks",
+     "command": "dotnet scripts/e732bd60a4a30cc553bff60d4bc6db8f3bf24d46/QuantConnect.DataSource.OptionsUniverseGenerator.dll --security-type=indexoption",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    29,
+    36,
+    40
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "26": {
+   "id": 26,
+   "name": "Redundancy Equity/Index Options",
+   "enabled": true,
+   "schedule": "0 4 * * Tue,Wed,Thu,Fri,Sat",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "redundancy",
+   "commit_url": "",
+   "timeout_minutes": 0,
+   "chain": [
+    {
+     "name": "Redundancy Equity/Index Options Raw Sync",
+     "command": "bash scripts/sync-price-option-indexoption-usa-raw.sh",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "Redundancy Equity/Index Options Price Processing",
+     "command": "price-option-usa",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "Redundancy U.S. Equity/Index Options Aggregation",
+     "command": "aggregation option usa",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "Redundancy IndexOption Option Aggregation",
+     "command": "aggregation indexoption usa",
+     "synchronize": 1,
+     "enabled": true
+    },
+    {
+     "name": "Redundancy U.S. Equity Options Greeks",
+     "command": "dotnet scripts/e732bd60a4a30cc553bff60d4bc6db8f3bf24d46/QuantConnect.DataSource.OptionsUniverseGenerator.dll --security-type=option",
+     "synchronize": 1,
+     "enabled": true
+    },
+    {
+     "name": "Redundancy U.S. Index Options Greeks",
+     "command": "dotnet scripts/e732bd60a4a30cc553bff60d4bc6db8f3bf24d46/QuantConnect.DataSource.OptionsUniverseGenerator.dll --security-type=indexoption",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    29,
+    40
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "367": {
+   "id": 367,
+   "name": "USA Equity/Index Options Influx Universe Generator",
+   "enabled": true,
+   "schedule": "0 18 * * Mon,Tue,Wed,Thu,Fri",
+   "timezone": "America/New_York",
+   "offset": 0,
+   "queue": "primary",
+   "commit_url": "",
+   "timeout_minutes": 0,
+   "chain": [
+    {
+     "name": "USA Equities Influx Price",
+     "command": "HistoryExporter/QuantConnect.Data.HistoryExporter equity usa",
+     "synchronize": 0,
+     "enabled": false
+    },
+    {
+     "name": "USA Equity Options Influx Price",
+     "command": "HistoryExporter/QuantConnect.Data.HistoryExporter option usa",
+     "synchronize": 0,
+     "enabled": false
+    },
+    {
+     "name": "USA Index Options Influx Price",
+     "command": "HistoryExporter/QuantConnect.Data.HistoryExporter indexoption usa",
+     "synchronize": 0,
+     "enabled": false
+    },
+    {
+     "name": "USA Equities Influx Aggregation",
+     "command": "aggregation equity usa",
+     "synchronize": 0,
+     "enabled": false
+    },
+    {
+     "name": "USA Equity Options Influx Aggregation",
+     "command": "aggregation option usa",
+     "synchronize": 0,
+     "enabled": false
+    },
+    {
+     "name": "USA Index Options Influx Aggregation",
+     "command": "aggregation indexoption usa",
+     "synchronize": 0,
+     "enabled": false
+    },
+    {
+     "name": "US Equity Options Universes Generation",
+     "command": "dotnet scripts/83698c37de4f97c2b8595a1f468896e2c8634437/QuantConnect.DataSource.OptionsUniverseGenerator.dll --security-type=option",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "US Index Options Universes Generation",
+     "command": "dotnet scripts/83698c37de4f97c2b8595a1f468896e2c8634437/QuantConnect.DataSource.OptionsUniverseGenerator.dll --security-type=indexoption",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    40
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "368": {
+   "id": 368,
+   "name": "Redundancy USA Equity/Index Options Influx Universe Generator",
+   "enabled": true,
+   "schedule": "0 22 * * Mon,Tue,Wed,Thu,Fri",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "redundancy",
+   "commit_url": "",
+   "timeout_minutes": 0,
+   "chain": [
+    {
+     "name": "Redundancy US Equity Options Universes Generation",
+     "command": "dotnet scripts/83698c37de4f97c2b8595a1f468896e2c8634437/QuantConnect.DataSource.OptionsUniverseGenerator.dll --security-type=option",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "Redundancy US Index Options Universes Generation",
+     "command": "dotnet scripts/83698c37de4f97c2b8595a1f468896e2c8634437/QuantConnect.DataSource.OptionsUniverseGenerator.dll --security-type=indexoption",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    40
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "87": {
+   "id": 87,
+   "name": "Vendor Brain Sentiment Data",
+   "enabled": true,
+   "schedule": "0 12 * * *",
+   "timezone": "UTC",
+   "offset": 0,
+   "queue": "primary",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.BrainSentiment/commit/ac16133abb165ad0172906b78ee3d66a5e37361e",
+   "timeout_minutes": 60,
+   "chain": [
+    {
+     "name": "Vendor Repo Brain Setup - pip install PyMySQL",
+     "command": "pip3 install PyMySQL==1.0.2 boto3==1.21.42",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "Vendor Repo Brain Sentiment Download/Processing",
+     "command": "python3 ./process.py False",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    33,
+    34,
+    35
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "179": {
+   "id": 179,
+   "name": "Redundancy Alternative Brain Sentiment Data",
+   "enabled": true,
+   "schedule": "0 14 * * *",
+   "timezone": "UTC",
+   "offset": 0,
+   "queue": "redundancy",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.BrainSentiment/commit/ac16133abb165ad0172906b78ee3d66a5e37361e",
+   "timeout_minutes": 30,
+   "chain": [
+    {
+     "name": "Redundancy Alternative Repo Brain Setup - pip install PyMySQL",
+     "command": "pip3 install PyMySQL==1.0.2 boto3==1.21.42",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "Redundancy Alternative Repo Brain Sentiment Download/Processing",
+     "command": "python3 ./process.py False",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    33,
+    34,
+    35
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "325": {
+   "id": 325,
+   "name": "US Bureau of Labor Statistics (BLS)",
+   "enabled": true,
+   "schedule": "0 10 * * *",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "primary",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.BLS/commit/0db1bbd0d7209f444bc3c4c67815650b113cfeb3",
+   "timeout_minutes": 30,
+   "chain": [
+    {
+     "name": "US Bureau of Labor Statistics (BLS)",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    88
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "366": {
+   "id": 366,
+   "name": "US Bureau of Labor Statistics (BLS) - Redundancy",
+   "enabled": false,
+   "schedule": "30 10 * * *",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "redundancy",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.BLS/commit/0db1bbd0d7209f444bc3c4c67815650b113cfeb3",
+   "timeout_minutes": 30,
+   "chain": [
+    {
+     "name": "US Bureau of Labor Statistics (BLS)",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    88
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "19": {
+   "id": 19,
+   "name": "Alternative U.S. Treasury Yield Curve",
+   "enabled": true,
+   "schedule": "0 19 * * *",
+   "timezone": "America/New_York",
+   "offset": 0,
+   "queue": "primary",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.USTreasury/commit/e0df528a964299b6236b3737f5387e8549195b73",
+   "timeout_minutes": 60,
+   "chain": [
+    {
+     "name": "U.S. Treasury Yield Curve Processing",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    12,
+    99
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "36": {
+   "id": 36,
+   "name": "Redundancy Alternative US Treasury Yield Curve",
+   "enabled": true,
+   "schedule": "0 21 * * *",
+   "timezone": "America/New_York",
+   "offset": 0,
+   "queue": "redundancy",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.USTreasury/commit/e0df528a964299b6236b3737f5387e8549195b73",
+   "timeout_minutes": 60,
+   "chain": [
+    {
+     "name": "Redundancy U.S. Treasury Yield Curve Processing",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    },
+    {
+     "name": "Redundancy U.S. Treasury Yield Curve Processing",
+     "command": "sleep 0",
+     "synchronize": 0,
+     "enabled": false
+    }
+   ],
+   "dataset_ids": [
+    12,
+    99
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "380": {
+   "id": 380,
+   "name": "US SEC 13F Whales",
+   "enabled": true,
+   "schedule": "0 23 * * 1-5",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "primary",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.SEC/commit/dcba1ba901e854f67119c0c1a57d8ac8bbcd0c16",
+   "timeout_minutes": 90,
+   "chain": [
+    {
+     "name": "US SEC 13F Whales",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    149
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "381": {
+   "id": 381,
+   "name": "US SEC 13F Whales Redundancy",
+   "enabled": true,
+   "schedule": "0 1 * * 2-6",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "redundancy",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.SEC/commit/dcba1ba901e854f67119c0c1a57d8ac8bbcd0c16",
+   "timeout_minutes": 90,
+   "chain": [
+    {
+     "name": "US SEC 13F Whales",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    149
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "261": {
+   "id": 261,
+   "name": "Fear and Greed",
+   "enabled": true,
+   "schedule": "0 8 * * Mon,Tue,Wed,Thu,Fri",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "primary",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.FearGreedIndex/commit/44773e5cd03bb91f98496ce8cab1ddcda64f8b9e",
+   "timeout_minutes": 30,
+   "chain": [
+    {
+     "name": "Fear and Greed Download/Convert",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    95
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "262": {
+   "id": 262,
+   "name": "Redundancy Fear and Greed",
+   "enabled": true,
+   "schedule": "30 8 * * Mon,Tue,Wed,Thu,Fri",
+   "timezone": "America/New_York",
+   "offset": 2,
+   "queue": "redundancy",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.FearGreedIndex/commit/44773e5cd03bb91f98496ce8cab1ddcda64f8b9e",
+   "timeout_minutes": 30,
+   "chain": [
+    {
+     "name": "Redundancy Fear and Greed Download/Convert",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    95
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "336": {
+   "id": 336,
+   "name": "Spectral Tick Flow Signal",
+   "enabled": true,
+   "schedule": "0 8 * * 2-6",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "primary",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.SpectralTickFlowSignal/commit/0d81e8a9da4a146bbe4d211db9aaa517d641d19d",
+   "timeout_minutes": 30,
+   "chain": [
+    {
+     "name": "Spectral Tick Flow Signal",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    123
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "337": {
+   "id": 337,
+   "name": "Spectral Tick Flow Signal - Redundancy",
+   "enabled": true,
+   "schedule": "15 9 * * 2-6",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "redundancy",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.SpectralTickFlowSignal/commit/0d81e8a9da4a146bbe4d211db9aaa517d641d19d",
+   "timeout_minutes": 30,
+   "chain": [
+    {
+     "name": "Spectral Tick Flow Signal",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    123
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "97": {
+   "id": 97,
+   "name": "QuantConnect ETF Constituents",
+   "enabled": true,
+   "schedule": "30 7 * * 2-6",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "primary",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.ETFConstituents/commit/135e23f8a67bc0ec4a2898bf44a0410213a2c925",
+   "timeout_minutes": 30,
+   "chain": [
+    {
+     "name": "QuantConnect ETF Constituents Forward",
+     "command": "python forward.py",
+     "synchronize": 1,
+     "enabled": false
+    },
+    {
+     "name": "QuantConnect ETF Constituents Raw Sync",
+     "command": "bash ./sync.sh",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "QuantConnect ETF Constituents Processing",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    38
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "100": {
+   "id": 100,
+   "name": "Redundancy QuantConnect ETF Constituents",
+   "enabled": true,
+   "schedule": "50 7 * * 2-6",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "redundancy",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.ETFConstituents/commit/135e23f8a67bc0ec4a2898bf44a0410213a2c925",
+   "timeout_minutes": 30,
+   "chain": [
+    {
+     "name": "QuantConnect ETF Constituents Forward",
+     "command": "python forward.py",
+     "synchronize": 1,
+     "enabled": false
+    },
+    {
+     "name": "QuantConnect ETF Constituents Raw Sync",
+     "command": "bash ./sync.sh",
+     "synchronize": 0,
+     "enabled": true
+    },
+    {
+     "name": "QuantConnect ETF Constituents Processing",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    38
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "383": {
+   "id": 383,
+   "name": "US Bank Financials",
+   "enabled": true,
+   "schedule": "2 13 * * 1-6",
+   "timezone": "America/New_York",
+   "offset": 0,
+   "queue": "primary",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.FDIC/commit/30f2bae3657b74d2a712f79fd89c77ff7c58ad69",
+   "timeout_minutes": 90,
+   "chain": [
+    {
+     "name": "US Bank Financials",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    151
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "384": {
+   "id": 384,
+   "name": "US Bank Financials - Redundancy",
+   "enabled": true,
+   "schedule": "2 15 * * 1-6",
+   "timezone": "America/New_York",
+   "offset": 0,
+   "queue": "redundancy",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.FDIC/commit/30f2bae3657b74d2a712f79fd89c77ff7c58ad69",
+   "timeout_minutes": 90,
+   "chain": [
+    {
+     "name": "US Bank Financials",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    151
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "385": {
+   "id": 385,
+   "name": "US Bank Failures",
+   "enabled": true,
+   "schedule": "4 13 * * 1-6",
+   "timezone": "America/New_York",
+   "offset": 0,
+   "queue": "primary",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.FDIC/commit/30f2bae3657b74d2a712f79fd89c77ff7c58ad69",
+   "timeout_minutes": 90,
+   "chain": [
+    {
+     "name": "US Bank Failures",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    151,
+    152
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "386": {
+   "id": 386,
+   "name": "US Bank Failures - Redundancy",
+   "enabled": true,
+   "schedule": "4 15 * * 1-6",
+   "timezone": "America/New_York",
+   "offset": 0,
+   "queue": "redundancy",
+   "commit_url": "https://github.com/QuantConnect/Lean.DataSource.FDIC/commit/30f2bae3657b74d2a712f79fd89c77ff7c58ad69",
+   "timeout_minutes": 90,
+   "chain": [
+    {
+     "name": "US Bank Failures",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    151,
+    152
+   ],
+   "alert_emails": [],
+   "config": {}
+  },
+  "387": {
+   "id": 387,
+   "name": "US Bank Failures",
+   "enabled": false,
+   "schedule": "0 * * * *",
+   "timezone": "America/New_York",
+   "offset": 1,
+   "queue": "primary",
+   "commit_url": "",
+   "timeout_minutes": 30,
+   "chain": [
+    {
+     "name": "US Bank Failures",
+     "command": "",
+     "synchronize": 1,
+     "enabled": true
+    }
+   ],
+   "dataset_ids": [
+    152
+   ],
+   "alert_emails": [],
+   "config": {}
+  }
+ },
+ "job_names": {
+  "13": "Alternative U.S. Equity SEC",
+  "30": "Redundancy Alternative Equity SEC",
+  "4": "U.S. Equity/Index Options",
+  "26": "Redundancy Equity/Index Options",
+  "367": "USA Equity/Index Options Influx Universe Generator",
+  "368": "Redundancy USA Equity/Index Options Influx Universe Generator",
+  "87": "Vendor Brain Sentiment Data",
+  "179": "Redundancy Alternative Brain Sentiment Data",
+  "325": "US Bureau of Labor Statistics (BLS)",
+  "366": "US Bureau of Labor Statistics (BLS) - Redundancy",
+  "19": "Alternative U.S. Treasury Yield Curve",
+  "36": "Redundancy Alternative US Treasury Yield Curve",
+  "380": "US SEC 13F Whales",
+  "381": "US SEC 13F Whales Redundancy",
+  "261": "Fear and Greed",
+  "262": "Redundancy Fear and Greed",
+  "336": "Spectral Tick Flow Signal",
+  "337": "Spectral Tick Flow Signal - Redundancy",
+  "97": "QuantConnect ETF Constituents",
+  "100": "Redundancy QuantConnect ETF Constituents",
+  "383": "US Bank Financials",
+  "384": "US Bank Financials - Redundancy",
+  "385": "US Bank Failures",
+  "386": "US Bank Failures - Redundancy",
+  "387": "US Bank Failures"
+ }
+}

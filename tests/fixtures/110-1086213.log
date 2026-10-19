@@ -1,0 +1,28 @@
+2026-10-12T11:10:33.0485914Z TRACE:: ProcessHelper.CreateProcess(): python process.py crossassetmodel wd: scripts/ff365bfe4e1762b23e776c9c09b80110b251048b
+2026-10-12T11:10:33.9503838Z TRACE:: Args: ['process.py', 'crossassetmodel']
+2026-10-12T11:10:33.9505171Z TRACE:: Downloading data from FTP for date: 20261012...
+2026-10-12T11:10:33.9505290Z TRACE:: Downloading CAM1_Daily_20261012.csv...
+2026-10-12T11:10:33.9506656Z ERROR:: Traceback (most recent call last):
+2026-10-12T11:10:33.9507194Z ERROR::   File "/QuantConnect.DataFleet.JobProcessor/bin/Release/scripts/ff365bfe4e1762b23e776c9c09b80110b251048b/process.py", line 162, in <module>
+2026-10-12T11:10:33.9507287Z ERROR::     main()
+2026-10-12T11:10:33.9507375Z ERROR::   File "/QuantConnect.DataFleet.JobProcessor/bin/Release/scripts/ff365bfe4e1762b23e776c9c09b80110b251048b/process.py", line 158, in main
+2026-10-12T11:10:33.9507701Z ERROR::     ftp_download(config, s3_base_path, s3_options, deployment_date)
+2026-10-12T11:10:33.9507789Z ERROR::   File "/QuantConnect.DataFleet.JobProcessor/bin/Release/scripts/ff365bfe4e1762b23e776c9c09b80110b251048b/process.py", line 123, in ftp_download
+2026-10-12T11:10:33.9507912Z ERROR::     ftp.retrbinary(f"RETR {file_name}", f.write)
+2026-10-12T11:10:33.9507997Z ERROR::   File "/opt/miniconda3/lib/python3.11/ftplib.py", line 436, in retrbinary
+2026-10-12T11:10:33.9508073Z ERROR::     with self.transfercmd(cmd, rest) as conn:
+2026-10-12T11:10:33.9508187Z ERROR::          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-12T11:10:33.9508252Z ERROR::   File "/opt/miniconda3/lib/python3.11/ftplib.py", line 393, in transfercmd
+2026-10-12T11:10:33.9508328Z ERROR::     return self.ntransfercmd(cmd, rest)[0]
+2026-10-12T11:10:33.9508449Z ERROR::            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-12T11:10:33.9508519Z ERROR::   File "/opt/miniconda3/lib/python3.11/ftplib.py", line 359, in ntransfercmd
+2026-10-12T11:10:33.9508598Z ERROR::     resp = self.sendcmd(cmd)
+2026-10-12T11:10:33.9508658Z ERROR::            ^^^^^^^^^^^^^^^^^
+2026-10-12T11:10:33.9508736Z ERROR::   File "/opt/miniconda3/lib/python3.11/ftplib.py", line 281, in sendcmd
+2026-10-12T11:10:33.9508801Z ERROR::     return self.getresp()
+2026-10-12T11:10:33.9508908Z ERROR::            ^^^^^^^^^^^^^^
+2026-10-12T11:10:33.9508974Z ERROR::   File "/opt/miniconda3/lib/python3.11/ftplib.py", line 254, in getresp
+2026-10-12T11:10:33.9509060Z ERROR::     raise error_perm(resp)
+2026-10-12T11:10:33.9509155Z ERROR:: ftplib.error_perm: 550 Failed to open file.
+2026-10-12T11:10:33.9589572Z TRACE:: LeanCloudDataRunner.OnExecute(): Execution python process.py crossassetmodel process.py crossassetmodel finished with exit code 1
+2026-10-12T11:10:33.9591118Z TRACE:: === JobProcessor.Run(): Job finished exit code 1 ===

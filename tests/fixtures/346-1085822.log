@@ -1,0 +1,11 @@
+2026-10-11T12:30:33.0840810Z TRACE:: ProcessHelper.CreateProcess(): dotnet process.dll wd: scripts/67608eaae64ed5671ee43aace94f785f7f3cb295
+2026-10-11T12:30:33.1613350Z TRACE:: BEADataDownloader.Run(): incremental mode for 2026
+2026-10-11T12:30:33.5565622Z ERROR:: BEADataDownloader.Run(): BEADataDownloader.Run(): failed System.Net.Http.HttpRequestException: Response status code does not indicate success: 503 (Service Unavailable).
+2026-10-11T12:30:33.5566552Z ERROR::    at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+2026-10-11T12:30:33.5566683Z ERROR::    at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+2026-10-11T12:30:33.5566790Z ERROR::    at QuantConnect.DataProcessing.BEADataDownloader.FetchTable(Int32 tableId, String yearFilter) in /LeanCloud/CI.Builder/bin/Release/src/QuantConnect/Lean.DataSource.BEA/DataProcessing/BEADataDownloader.cs:line 215
+2026-10-11T12:30:33.5567002Z ERROR::    at QuantConnect.DataProcessing.BEADataDownloader.ProcessAll(String yearFilter, Nullable`1 deploymentDate) in /LeanCloud/CI.Builder/bin/Release/src/QuantConnect/Lean.DataSource.BEA/DataProcessing/BEADataDownloader.cs:line 133
+2026-10-11T12:30:33.5567279Z ERROR::    at QuantConnect.DataProcessing.BEADataDownloader.Run() in /LeanCloud/CI.Builder/bin/Release/src/QuantConnect/Lean.DataSource.BEA/DataProcessing/BEADataDownloader.cs:line 109
+2026-10-11T12:30:33.5567543Z ERROR:: QuantConnect.DataProcessing.Program.Main(): Failed to download/process bea gdpbyindustry data
+2026-10-11T12:30:33.5621018Z TRACE:: LeanCloudDataRunner.OnExecute(): Execution  process.dll finished with exit code 1
+2026-10-11T12:30:33.5622415Z TRACE:: === JobProcessor.Run(): Job finished exit code 1 ===

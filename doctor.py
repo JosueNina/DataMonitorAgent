@@ -1,0 +1,100 @@
+"""`python run.py doctor`: checks that this machine can run the monitor, with the credentials already on it."""
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+
+
+def _run(command):
+    try:
+        done = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", timeout=60)
+        return done.returncode, (done.stdout + done.stderr).strip()
+    except (OSError, subprocess.TimeoutExpired) as error:
+        return 1, str(error)
+
+
+def check_python():
+    ok = sys.version_info >= (3, 11)
+    return ok, f"Python {sys.version.split()[0]}" + ("" if ok else " (3.11 or newer is required)")
+
+
+def check_qc_credentials():
+    from dsmon.api import env_value
+    user = env_value("QC_USER_ID", "QC_JOB_USER_ID", required=False)
+    token = env_value("QC_API_TOKEN", "QC_API_ACCESS_TOKEN", required=False)
+    if not user or not token:
+        return False, "QC_USER_ID and QC_API_TOKEN are not set (environment or .env)"
+    return True, "QuantConnect credentials found"
+
+
+def check_qc_admin():
+    from dsmon.api import QCApi
+    try:
+        body = QCApi(retries=1).post_form("/market/dashboard/data-job/list/")
+    except Exception as error:
+        return False, f"DataFleet admin routes refused: {str(error)[:200]}"
+    return True, f"DataFleet job list readable ({len(body.get('list', []))} jobs)"
+
+
+def check_claude():
+    path = shutil.which("claude")
+    if not path:
+        return False, "claude CLI not found on PATH (needed only for --agent)"
+    code, out = _run([path, "--version"])
+    return code == 0, f"claude {out.splitlines()[0] if out else ''}"
+
+
+def check_gh():
+    path = shutil.which("gh")
+    if not path:
+        return False, "gh not found on PATH (needed only to publish issues and PRs, a later step)"
+    code, out = _run([path, "api", "user", "--jq", ".login"])
+    return code == 0, f"gh logged in as {out}" if code == 0 else f"gh is not logged in: run `gh auth login` ({out[:120]})"
+
+
+def check_git():
+    path = shutil.which("git")
+    if not path:
+        return False, "git not found on PATH"
+    code, out = _run([path, "--version"])
+    return code == 0, out
+
+
+def check_reports():
+    folder = ROOT / "reports"
+    try:
+        folder.mkdir(exist_ok=True)
+        with tempfile.NamedTemporaryFile(dir=folder):
+            pass
+    except OSError as error:
+        return False, f"cannot write {folder}: {error}"
+    return True, f"reports folder writable ({folder})"
+
+
+# (name, check, required): optional checks only matter for the agent steps.
+CHECKS = [("python", check_python, True), ("credentials", check_qc_credentials, True),
+          ("datafleet", check_qc_admin, True), ("reports", check_reports, True),
+          ("claude", check_claude, False), ("gh", check_gh, False), ("git", check_git, False)]
+
+
+def main():
+    failed = False
+    for name, check, required in CHECKS:
+        try:
+            ok, message = check()
+        except Exception as error:
+            ok, message = False, f"{type(error).__name__}: {error}"
+        mark = "OK  " if ok else ("FAIL" if required else "WARN")
+        print(f"{mark} {name:<12} {message}")
+        failed |= required and not ok
+        if name == "credentials" and not ok:
+            print("     skipping the DataFleet check: no credentials")
+            break
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

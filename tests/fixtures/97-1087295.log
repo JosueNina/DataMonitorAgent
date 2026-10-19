@@ -1,0 +1,23 @@
+2026-10-14T11:30:34.0314544Z TRACE:: ProcessHelper.CreateProcess(): bash ./sync.sh wd: scripts/135e23f8a67bc0ec4a2898bf44a0410213a2c925
+2026-10-14T11:30:34.0371363Z TRACE:: Downloading MasterData ETF constituents data from S3 archive: s3://archive.quantconnect.com/equity/usa/universes/masterdata/etf/20261013.csv
+2026-10-14T11:30:40.4049034Z TRACE:: Download from S3 archive failed: fatal error: An error occurred (404) when calling the HeadObject operation: Key "equity/usa/universes/masterdata/etf/20261013.csv" does not exist
+2026-10-14T11:30:40.4072599Z TRACE:: Downloading MasterData ETF constituents data from HTTP (attempt 1/5)
+2026-10-14T11:30:40.4170126Z ERROR::   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2026-10-14T11:30:40.4170784Z ERROR::                                  Dload  Upload   Total   Spent    Left  Speed
+2026-10-14T11:30:40.6512105Z ERROR::   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-10-14T11:30:40.7968536Z ERROR::   0   802    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-10-14T11:30:40.7968996Z ERROR:: curl: (22) The requested URL returned error: 401
+2026-10-14T11:30:40.7996135Z TRACE:: Download from HTTP failed with status 401, not retrying
+2026-10-14T11:30:40.8022821Z TRACE:: Downloading most recent MasterData ETF constituents data from FTP for date: 20261013
+2026-10-14T11:30:46.3376116Z ERROR:: pget: ConstituentData42.csv: Login failed: 530 Please tell me who you are
+2026-10-14T11:30:46.4336947Z TRACE:: Download from FTP failed
+2026-10-14T11:30:46.4337308Z TRACE:: Downloading MasterData ETF constituents data from archive FTP for date: 20261013
+2026-10-14T11:30:46.8415458Z TRACE:: Download from archive FTP failed for: 20261013-ConstituentData42.csv
+2026-10-14T11:30:46.8469469Z ERROR:: get: 20261013-ConstituentData42.csv: Fatal error: Certificate verification: certificate common name doesn't match requested host name ‘americanetp.com’ (69:C7:B9:21:5F:F9:43:4E:11:89:CA:7E:92:3F:26:B8:7D:9C:95:AB)
+2026-10-14T11:30:47.0214155Z ERROR:: get: Archive/20261013-ConstituentData42.csv: Fatal error: Certificate verification: certificate common name doesn't match requested host name ‘americanetp.com’ (69:C7:B9:21:5F:F9:43:4E:11:89:CA:7E:92:3F:26:B8:7D:9C:95:AB)
+2026-10-14T11:30:47.0224547Z TRACE:: Download from archive FTP failed for: Archive/20261013-ConstituentData42.csv
+2026-10-14T11:30:47.3654327Z ERROR:: get: Archive/ConstituentData42-20261013.csv: Fatal error: Certificate verification: certificate common name doesn't match requested host name ‘americanetp.com’ (69:C7:B9:21:5F:F9:43:4E:11:89:CA:7E:92:3F:26:B8:7D:9C:95:AB)
+2026-10-14T11:30:47.3662963Z TRACE:: Download from archive FTP failed for: Archive/ConstituentData42-20261013.csv
+2026-10-14T11:30:47.3663083Z TRACE:: Download from archive FTP failed for all known filename patterns
+2026-10-14T11:30:47.3690585Z TRACE:: LeanCloudDataRunner.OnExecute(): Execution bash ./sync.sh ./sync.sh finished with exit code 1
+2026-10-14T11:30:47.3692314Z TRACE:: === JobProcessor.Run(): Job finished exit code 1 ===

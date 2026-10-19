@@ -1,0 +1,30 @@
+2026-10-14T13:15:33.8361195Z TRACE:: ProcessHelper.CreateProcess(): python3 process.py wd: scripts/0d81e8a9da4a146bbe4d211db9aaa517d641d19d
+2026-10-14T13:15:34.2671427Z TRACE:: data-folder:     /Data
+2026-10-14T13:15:34.2672122Z TRACE:: output:          /temp-output-directory/alternative/quantconnect/spectraltickflow
+2026-10-14T13:15:34.2672190Z TRACE:: processing-date: 20261013  no start-date -> session 20261013
+2026-10-14T13:15:34.2672255Z TRACE:: sessions with an ETF constituents file: 1
+2026-10-14T13:15:34.2672457Z TRACE:: volume window:   7 sessions
+2026-10-14T13:15:34.2672525Z TRACE:: workers:         8
+2026-10-14T13:15:51.9529778Z TRACE::   session 20261013 -> universe/20261014.csv: 503 rows
+2026-10-14T13:15:51.9530305Z TRACE:: wrote 1 universe file(s), 503 ticker-day rows
+2026-10-14T13:15:51.9530410Z TRACE:: wrote 951 per-ticker files (1434617 rows) under /temp-output-directory/alternative/quantconnect/spectraltickflow
+2026-10-14T13:15:52.0457577Z TRACE:: LeanCloudDataRunner.OnExecute(): Execution  process.py finished with exit code 0
+2026-10-14T13:15:52.0459218Z TRACE:: === JobProcessor.Run(): Job finished exit code 0 ===
+2026-10-14T13:15:52.0462723Z TRACE:: JobProcessor.TrySyncRawData(): skipping raw sync. Folder '/raw' does not exist
+2026-10-14T13:15:52.0468381Z TRACE:: ProducerSynchronizer: Initializing.
+2026-10-14T13:15:52.0468715Z TRACE:: ProducerSynchronizer: Listing files in /temp-output-directory.
+2026-10-14T13:15:52.0481912Z TRACE:: ProcessHelper.CreateProcess(): tar cf /QuantConnect.DataFleet.JobProcessor/bin/Release/sync-output-directory/20261013_spectral_tick_flow_signal_6bc8fd74.tar -C /temp-output-directory . --verify wd: 
+2026-10-14T13:15:52.1711432Z TRACE:: ProducerSynchronizer.TryTarFolderCli(): Packing success in 0:00:00.1220239
+2026-10-14T13:15:52.1714321Z TRACE:: ProducerSynchronizer.Distribute(): uploading files from /QuantConnect.DataFleet.JobProcessor/bin/Release/sync-output-directory to s3://transfer/20261014 attempt 1 of 3.
+2026-10-14T13:15:52.1725156Z TRACE:: S3StorageProvider.UploadFolder(): Uploading /QuantConnect.DataFleet.JobProcessor/bin/Release/sync-output-directory to transfer/20261014 ... 
+2026-10-14T13:15:52.1749104Z TRACE:: S3StorageProvider.UploadFolder(): Uploading 20261013_spectral_tick_flow_signal_6bc8fd74.tar
+2026-10-14T13:15:52.2855846Z TRACE:: S3StorageProvider.UploadFolder(): 0 of 1 files uploaded at 962.96 kB/s, ETA 0:01:10.9476923
+2026-10-14T13:15:52.3726507Z TRACE:: S3StorageProvider.UploadFolder(): 1 of 1 files uploaded at 341600.00 kB/s, ETA 0:00:00.2
+2026-10-14T13:15:52.3949890Z TRACE:: S3StorageProvider.UploadFolder(): Generating signed URLs for data synced to endpoint: http://dataprocessor02.quantconnect.com:9000 in bucket: transfer
+2026-10-14T13:15:52.4205845Z TRACE:: ProducerSynchronizer.Distribute(): 952 files uploaded successfully.
+2026-10-14T13:15:52.4396415Z TRACE:: Cloud.InitializeQueue(): Initializing: _master-80e7843-b5741c7-18166 Ip: services.fundengine.org User: data-fleet-server Prefix: 
+2026-10-14T13:15:52.4460799Z TRACE:: RMQHelper.Open(): Creating auto-recovering connection...
+2026-10-14T13:15:52.4470920Z TRACE:: RMQHelper.Open(): Opened Queue. Exchange: QCDataFleetConsumerSynchronization, QueueName: _master-80e7843-b5741c7-18166
+2026-10-14T13:15:52.4485033Z TRACE:: RMQHelper.OnConnectionShutdown(): Connection is shutdown: AMQP close-reason, initiated by Application, code=200, text="Connection close forced", classId=0, methodId=0, cause=
+2026-10-14T13:15:52.4494549Z TRACE:: ProducerSynchronizer.DeleteTemporaryOutputDirectory(): Deleting /temp-output-directory.
+2026-10-14T13:15:52.4624259Z TRACE:: ProducerSynchronizer.DeleteTemporaryOutputDirectory(): /temp-output-directory deleted.

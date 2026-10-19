@@ -1,0 +1,20 @@
+2026-10-14T12:07:04.1891613Z TRACE:: ProcessHelper.CreateProcess(): python3 process.py wd: scripts/0d81e8a9da4a146bbe4d211db9aaa517d641d19d
+2026-10-14T12:07:04.5914048Z TRACE:: data-folder:     /Data
+2026-10-14T12:07:04.5914604Z TRACE:: output:          /temp-output-directory/alternative/quantconnect/spectraltickflow
+2026-10-14T12:07:04.5914699Z TRACE:: processing-date: 20261013  no start-date -> session 20261013
+2026-10-14T12:07:04.5914792Z TRACE:: sessions with an ETF constituents file: 0
+2026-10-14T12:07:04.5914920Z TRACE:: volume window:   7 sessions
+2026-10-14T12:07:04.5914998Z TRACE:: workers:         8
+2026-10-14T12:07:04.5916862Z ERROR:: nothing to emit in this date range.
+2026-10-14T12:07:04.5917952Z ERROR:: Traceback (most recent call last):
+2026-10-14T12:07:04.5918032Z ERROR::   File "/QuantConnect.DataFleet.JobProcessor/bin/Release/scripts/0d81e8a9da4a146bbe4d211db9aaa517d641d19d/process.py", line 632, in <module>
+2026-10-14T12:07:04.5918102Z ERROR::     raise SystemExit(main())
+2026-10-14T12:07:04.5918181Z ERROR::                      ^^^^^^
+2026-10-14T12:07:04.5918245Z ERROR::   File "/QuantConnect.DataFleet.JobProcessor/bin/Release/scripts/0d81e8a9da4a146bbe4d211db9aaa517d641d19d/process.py", line 629, in main
+2026-10-14T12:07:04.5918321Z ERROR::     return SpectralTickFlowProcessor().process()
+2026-10-14T12:07:04.5918364Z ERROR::            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T12:07:04.5918418Z ERROR::   File "/QuantConnect.DataFleet.JobProcessor/bin/Release/scripts/0d81e8a9da4a146bbe4d211db9aaa517d641d19d/process.py", line 623, in process
+2026-10-14T12:07:04.5918481Z ERROR::     raise DateProcessingError(f"failed to process {len(failures)} session(s): {detail}")
+2026-10-14T12:07:04.5918557Z ERROR:: DateProcessingError: failed to process 1 session(s): 20261013: no SPY ETF constituents file
+2026-10-14T12:07:04.6509592Z TRACE:: LeanCloudDataRunner.OnExecute(): Execution  process.py finished with exit code 1
+2026-10-14T12:07:04.6511086Z TRACE:: === JobProcessor.Run(): Job finished exit code 1 ===

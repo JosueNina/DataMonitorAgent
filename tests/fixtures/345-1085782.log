@@ -1,0 +1,31 @@
+2026-10-11T11:30:39.0511149Z TRACE:: ProcessHelper.CreateProcess(): dotnet process.dll wd: scripts/67608eaae64ed5671ee43aace94f785f7f3cb295
+2026-10-11T11:30:39.1318971Z TRACE:: BEADataDownloader.Run(): incremental mode for 2026
+2026-10-11T11:32:39.1639687Z ERROR:: BEADataDownloader.Run(): BEADataDownloader.Run(): failed System.Threading.Tasks.TaskCanceledException: The request was canceled due to the configured HttpClient.Timeout of 120 seconds elapsing.
+2026-10-11T11:32:39.1640471Z ERROR::  ---> System.TimeoutException: The operation was canceled.
+2026-10-11T11:32:39.1640593Z ERROR::  ---> System.Threading.Tasks.TaskCanceledException: The operation was canceled.
+2026-10-11T11:32:39.1640654Z ERROR::  ---> System.IO.IOException: Unable to read data from the transport connection: Operation canceled.
+2026-10-11T11:32:39.1640840Z ERROR::  ---> System.Net.Sockets.SocketException (125): Operation canceled
+2026-10-11T11:32:39.1640937Z ERROR::    --- End of inner exception stack trace ---
+2026-10-11T11:32:39.1641003Z ERROR::    at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+2026-10-11T11:32:39.1641112Z ERROR::    at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource<System.Int32>.GetResult(Int16 token)
+2026-10-11T11:32:39.1641184Z ERROR::    at System.Net.Security.SslStream.EnsureFullTlsFrameAsync[TIOAdapter](CancellationToken cancellationToken, Int32 estimatedSize)
+2026-10-11T11:32:39.1641598Z ERROR::    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+2026-10-11T11:32:39.1641719Z ERROR::    at System.Net.Security.SslStream.ReadAsyncInternal[TIOAdapter](Memory`1 buffer, CancellationToken cancellationToken)
+2026-10-11T11:32:39.1641854Z ERROR::    at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+2026-10-11T11:32:39.1641920Z ERROR::    at System.Net.Http.HttpConnection.InitialFillAsync(Boolean async)
+2026-10-11T11:32:39.1642005Z ERROR::    at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+2026-10-11T11:32:39.1642066Z ERROR::    --- End of inner exception stack trace ---
+2026-10-11T11:32:39.1642189Z ERROR::    at System.Net.Http.HttpConnection.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+2026-10-11T11:32:39.1642280Z ERROR::    at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+2026-10-11T11:32:39.1642538Z ERROR::    at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+2026-10-11T11:32:39.1642640Z ERROR::    at System.Net.Http.SocketsHttpHandler.<SendAsync>g__CreateHandlerAndSendAsync|115_0(HttpRequestMessage request, CancellationToken cancellationToken)
+2026-10-11T11:32:39.1642717Z ERROR::    at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+2026-10-11T11:32:39.1642831Z ERROR::    --- End of inner exception stack trace ---
+2026-10-11T11:32:39.1642944Z ERROR::    at System.Net.Http.HttpClient.HandleFailure(Exception e, Boolean telemetryStarted, HttpResponseMessage response, CancellationTokenSource cts, CancellationToken cancellationToken, CancellationTokenSource pendingRequestsCts)
+2026-10-11T11:32:39.1643257Z ERROR::    at System.Net.Http.HttpClient.GetStringAsyncCore(HttpRequestMessage request, CancellationToken cancellationToken)
+2026-10-11T11:32:39.1643357Z ERROR::    at QuantConnect.DataProcessing.BEADataDownloader.FetchTable(Int32 tableId, String yearFilter) in /LeanCloud/CI.Builder/bin/Release/src/QuantConnect/Lean.DataSource.BEA/DataProcessing/BEADataDownloader.cs:line 215
+2026-10-11T11:32:39.1643615Z ERROR::    at QuantConnect.DataProcessing.BEADataDownloader.ProcessAll(String yearFilter, Nullable`1 deploymentDate) in /LeanCloud/CI.Builder/bin/Release/src/QuantConnect/Lean.DataSource.BEA/DataProcessing/BEADataDownloader.cs:line 133
+2026-10-11T11:32:39.1643752Z ERROR::    at QuantConnect.DataProcessing.BEADataDownloader.Run() in /LeanCloud/CI.Builder/bin/Release/src/QuantConnect/Lean.DataSource.BEA/DataProcessing/BEADataDownloader.cs:line 109
+2026-10-11T11:32:39.1643811Z ERROR:: QuantConnect.DataProcessing.Program.Main(): Failed to download/process bea gdpbyindustry data
+2026-10-11T11:32:39.1698571Z TRACE:: LeanCloudDataRunner.OnExecute(): Execution  process.dll finished with exit code 1
+2026-10-11T11:32:39.1699923Z TRACE:: === JobProcessor.Run(): Job finished exit code 1 ===

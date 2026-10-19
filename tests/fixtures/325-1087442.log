@@ -1,0 +1,199 @@
+2026-10-14T14:00:34.9486427Z TRACE:: ProcessHelper.CreateProcess(): qc-jupyter process.ipynb wd: scripts/0db1bbd0d7209f444bc3c4c67815650b113cfeb3
+2026-10-14T14:00:34.9950524Z TRACE:: ProcessHelper.CreateProcess(): papermill "process.ipynb" "process.ipynb" --log-output --cwd /QuantConnect.DataFleet.JobProcessor/bin/Release/scripts/0db1bbd0d7209f444bc3c4c67815650b113cfeb3 wd: /QuantConnect.DataFleet.JobProcessor/bin/Release/scripts/0db1bbd0d7209f444bc3c4c67815650b113cfeb3
+2026-10-14T14:00:35.9338528Z ERROR:: Input Notebook:  process.ipynb
+2026-10-14T14:00:35.9339294Z ERROR:: Output Notebook: process.ipynb
+2026-10-14T14:00:35.9339359Z ERROR:: Working directory: /QuantConnect.DataFleet.JobProcessor/bin/Release/scripts/0db1bbd0d7209f444bc3c4c67815650b113cfeb3
+2026-10-14T14:00:36.6056544Z TRACE:: PythonEngine.Initialize(): clr GetManifestResourceStream...
+2026-10-14T14:00:38.1955284Z TRACE:: Composer(): Loading Assemblies from /QuantConnect.DataFleet.JobProcessor/bin/Release/scripts/0db1bbd0d7209f444bc3c4c67815650b113cfeb3
+2026-10-14T14:00:38.2100749Z ERROR:: Initializer.Start():  System.ArgumentException: Unable to locate any exports matching the requested typeName: CompositeLogHandler. Type: QuantConnect.Logging.ILogHandler (Parameter 'typeName')
+2026-10-14T14:00:38.2101042Z ERROR::    at QuantConnect.Util.Composer.GetExportedValueByTypeName[T](String typeName, Boolean forceTypeNameOnExisting) in Common/Util/Composer.cs:line 280
+2026-10-14T14:00:38.2101139Z ERROR::    at QuantConnect.Lean.Engine.Initializer.Start(DateTime utcStartTime) in Engine/Initializer.cs:line 53
+2026-10-14T14:00:38.2171221Z ERROR:: [IPKernelApp] WARNING | Unknown error in handling startup files:
+2026-10-14T14:00:38.5618861Z ERROR:: Executing notebook with kernel: python3
+2026-10-14T14:00:38.5619325Z ERROR:: Executing Cell 1---------------------------------------
+2026-10-14T14:00:38.5633123Z ERROR:: Ending Cell 1------------------------------------------
+2026-10-14T14:00:38.5653240Z ERROR:: Executing Cell 2---------------------------------------
+2026-10-14T14:00:38.5960388Z ERROR:: Ending Cell 2------------------------------------------
+2026-10-14T14:00:38.5971531Z ERROR:: Executing Cell 3---------------------------------------
+2026-10-14T14:00:38.5982768Z ERROR:: Ending Cell 3------------------------------------------
+2026-10-14T14:00:38.5993597Z ERROR:: Executing Cell 4---------------------------------------
+2026-10-14T14:00:38.6036587Z ERROR:: Incremental mode: True
+2026-10-14T14:00:38.6036711Z ERROR:: Deployment date : 20261013
+2026-10-14T14:00:38.6036765Z ERROR:: Data folder     : /Data
+2026-10-14T14:00:38.6036844Z ERROR:: Temp output     : /temp-output-directory
+2026-10-14T14:00:38.6049154Z ERROR:: Ending Cell 4------------------------------------------
+2026-10-14T14:00:38.6061507Z ERROR:: Executing Cell 5---------------------------------------
+2026-10-14T14:00:38.6072854Z ERROR:: Ending Cell 5------------------------------------------
+2026-10-14T14:00:38.6083933Z ERROR:: Executing Cell 6---------------------------------------
+2026-10-14T14:00:38.6128528Z ERROR:: Total series: 50
+2026-10-14T14:00:38.6128701Z ERROR::   cpi: 15 series
+2026-10-14T14:00:38.6128840Z ERROR::   ces: 16 series
+2026-10-14T14:00:38.6128961Z ERROR::   ppi: 11 series
+2026-10-14T14:00:38.6129129Z ERROR::   jolts: 8 series
+2026-10-14T14:00:38.6139168Z ERROR:: Ending Cell 6------------------------------------------
+2026-10-14T14:00:38.6151752Z ERROR:: Executing Cell 7---------------------------------------
+2026-10-14T14:00:38.6163434Z ERROR:: Ending Cell 7------------------------------------------
+2026-10-14T14:00:38.6175009Z ERROR:: Executing Cell 8---------------------------------------
+2026-10-14T14:00:38.6299216Z ERROR:: Ending Cell 8------------------------------------------
+2026-10-14T14:00:38.6311679Z ERROR:: Executing Cell 9---------------------------------------
+2026-10-14T14:00:38.6323762Z ERROR:: Ending Cell 9------------------------------------------
+2026-10-14T14:00:38.6335521Z ERROR:: Executing Cell 10--------------------------------------
+2026-10-14T14:00:38.6401317Z ERROR:: Ending Cell 10-----------------------------------------
+2026-10-14T14:00:38.6412920Z ERROR:: Executing Cell 11--------------------------------------
+2026-10-14T14:00:38.6424732Z ERROR:: Ending Cell 11-----------------------------------------
+2026-10-14T14:00:38.6436744Z ERROR:: Executing Cell 12--------------------------------------
+2026-10-14T14:00:38.6485437Z ERROR:: Ending Cell 12-----------------------------------------
+2026-10-14T14:00:38.6496900Z ERROR:: Executing Cell 13--------------------------------------
+2026-10-14T14:00:38.6508465Z ERROR:: Ending Cell 13-----------------------------------------
+2026-10-14T14:00:38.6520184Z ERROR:: Executing Cell 14--------------------------------------
+2026-10-14T14:00:38.6569115Z ERROR:: Ending Cell 14-----------------------------------------
+2026-10-14T14:00:38.6580884Z ERROR:: Executing Cell 15--------------------------------------
+2026-10-14T14:00:38.6596631Z ERROR:: Ending Cell 15-----------------------------------------
+2026-10-14T14:00:38.6604300Z ERROR:: Executing Cell 16--------------------------------------
+2026-10-14T14:00:38.8041093Z ERROR:: ============================================================
+2026-10-14T14:00:38.8041261Z ERROR:: Step 1: Building release date map...
+2026-10-14T14:00:38.8041318Z ERROR:: ============================================================
+2026-10-14T14:00:38.8041368Z ERROR::   Scraping schedule for 2000...
+2026-10-14T14:00:39.5473388Z ERROR::     Found 39 matching releases for our surveys
+2026-10-14T14:00:41.0479379Z ERROR::   Scraping schedule for 2001...
+2026-10-14T14:00:41.7828599Z ERROR::     Found 39 matching releases for our surveys
+2026-10-14T14:00:43.2828211Z ERROR::   Scraping schedule for 2002...
+2026-10-14T14:00:43.8278598Z ERROR::     Found 39 matching releases for our surveys
+2026-10-14T14:00:45.3281622Z ERROR::   Scraping schedule for 2003...
+2026-10-14T14:00:45.8160287Z ERROR::     Found 39 matching releases for our surveys
+2026-10-14T14:00:47.3168421Z ERROR::   Scraping schedule for 2004...
+2026-10-14T14:00:47.9592112Z ERROR::     Found 39 matching releases for our surveys
+2026-10-14T14:00:49.4598700Z ERROR::   Scraping schedule for 2005...
+2026-10-14T14:00:50.1665963Z ERROR::     Found 39 matching releases for our surveys
+2026-10-14T14:00:51.6672232Z ERROR::   Scraping schedule for 2006...
+2026-10-14T14:00:52.2995667Z ERROR::     Found 39 matching releases for our surveys
+2026-10-14T14:00:53.8008003Z ERROR::   Scraping schedule for 2007...
+2026-10-14T14:00:54.2874666Z ERROR::     Found 39 matching releases for our surveys
+2026-10-14T14:00:55.7875342Z ERROR::   Scraping schedule for 2008...
+2026-10-14T14:00:56.5299824Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:00:58.0305321Z ERROR::   Scraping schedule for 2009...
+2026-10-14T14:00:58.7954139Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:00.2963969Z ERROR::   Scraping schedule for 2010...
+2026-10-14T14:01:00.8724997Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:02.3732150Z ERROR::   Scraping schedule for 2011...
+2026-10-14T14:01:03.1800071Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:04.6805786Z ERROR::   Scraping schedule for 2012...
+2026-10-14T14:01:05.3776164Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:06.8784967Z ERROR::   Scraping schedule for 2013...
+2026-10-14T14:01:07.5730895Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:09.0753906Z ERROR::   Scraping schedule for 2014...
+2026-10-14T14:01:09.7680362Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:11.2684029Z ERROR::   Scraping schedule for 2015...
+2026-10-14T14:01:12.0464469Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:13.5471028Z ERROR::   Scraping schedule for 2016...
+2026-10-14T14:01:14.2763653Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:15.7770908Z ERROR::   Scraping schedule for 2017...
+2026-10-14T14:01:16.5445715Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:18.0453341Z ERROR::   Scraping schedule for 2018...
+2026-10-14T14:01:18.6077467Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:20.1080980Z ERROR::   Scraping schedule for 2019...
+2026-10-14T14:01:20.6666854Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:22.1670530Z ERROR::   Scraping schedule for 2020...
+2026-10-14T14:01:22.8257724Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:24.3259378Z ERROR::   Scraping schedule for 2021...
+2026-10-14T14:01:24.9737340Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:26.4750649Z ERROR::   Scraping schedule for 2022...
+2026-10-14T14:01:27.2245815Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:28.7252282Z ERROR::   Scraping schedule for 2023...
+2026-10-14T14:01:29.4672135Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:30.9674426Z ERROR::   Scraping schedule for 2024...
+2026-10-14T14:01:31.8246433Z ERROR::     Found 48 matching releases for our surveys
+2026-10-14T14:01:33.3252100Z ERROR::   Scraping schedule for 2025...
+2026-10-14T14:01:33.9456053Z ERROR::   WARNING: the page for 2025 holds no release
+2026-10-14T14:01:33.9456321Z ERROR::     status 200, 1637 bytes, 1637 null bytes
+2026-10-14T14:01:33.9456449Z ERROR::     headers {'Content-Type': 'text/html', 'Last-Modified': 'Thu, 03 Oct 2024 17:38:40 GMT', 'ETag': '"0906b15bb15db1:0"', 'X-XSS-Protection': '1; mode=block', 'P3P': 'CP="NOI DSP COR NID CURaADMa OUR STP"', 'Pool-Info': 'WP3', 'X-Frame-Options': 'ALLOW-FROM https://www.bls.gov', 'Content-Security-Policy': 'frame-ancestors https://*.bls.gov', 'Cross-Origin-Opener-Policy': 'same-origin', 'Content-Encoding': 'gzip', 'Content-Length': '45', 'Date': 'Wed, 14 Oct 2026 14:01:33 GMT', 'Connection': 'keep-alive', 'Vary': 'Accept-Encoding', 'Alt-Svc': 'h3=":443"; ma=93600', 'Strict-Transport-Security': 'max-age=31536000 ; includeSubDomains ; preload'}
+2026-10-14T14:01:33.9456678Z ERROR::     body '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+2026-10-14T14:01:33.9456757Z ERROR::     Found 0 matching releases for our surveys
+2026-10-14T14:01:35.4470103Z ERROR::   Scraping schedule for 2026...
+2026-10-14T14:01:35.8778774Z ERROR::   WARNING: the page for 2026 holds no release
+2026-10-14T14:01:35.8779035Z ERROR::     status 200, 1660 bytes, 1660 null bytes
+2026-10-14T14:01:35.8779145Z ERROR::     headers {'Content-Type': 'text/html', 'Last-Modified': 'Mon, 29 Sep 2025 20:29:56 GMT', 'ETag': '"07a84d17f31dc1:0"', 'X-XSS-Protection': '1; mode=block', 'P3P': 'CP="NOI DSP COR NID CURaADMa OUR STP"', 'Pool-Info': 'WP3', 'X-Frame-Options': 'ALLOW-FROM https://www.bls.gov', 'Content-Security-Policy': 'frame-ancestors https://*.bls.gov', 'Cross-Origin-Opener-Policy': 'same-origin', 'Content-Encoding': 'gzip', 'Content-Length': '52', 'Date': 'Wed, 14 Oct 2026 14:01:35 GMT', 'Connection': 'keep-alive', 'Vary': 'Accept-Encoding', 'Alt-Svc': 'h3=":443"; ma=93600', 'Strict-Transport-Security': 'max-age=31536000 ; includeSubDomains ; preload'}
+2026-10-14T14:01:35.8779361Z ERROR::     body '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+2026-10-14T14:01:35.8779563Z ERROR::     Found 0 matching releases for our surveys
+2026-10-14T14:01:37.3786690Z ERROR::   Retrying [2025, 2026] in 30s...
+2026-10-14T14:02:07.3818691Z ERROR::   Scraping schedule for 2025...
+2026-10-14T14:02:07.9258040Z ERROR::   WARNING: the page for 2025 holds no release
+2026-10-14T14:02:07.9258257Z ERROR::     status 200, 1637 bytes, 1637 null bytes
+2026-10-14T14:02:07.9258339Z ERROR::     headers {'Content-Type': 'text/html', 'Last-Modified': 'Thu, 03 Oct 2024 17:38:40 GMT', 'ETag': '"0906b15bb15db1:0"', 'X-XSS-Protection': '1; mode=block', 'P3P': 'CP="NOI DSP COR NID CURaADMa OUR STP"', 'Pool-Info': 'WP3', 'X-Frame-Options': 'ALLOW-FROM https://www.bls.gov', 'Content-Security-Policy': 'frame-ancestors https://*.bls.gov', 'Cross-Origin-Opener-Policy': 'same-origin', 'Content-Encoding': 'gzip', 'Content-Length': '45', 'Date': 'Wed, 14 Oct 2026 14:02:07 GMT', 'Connection': 'keep-alive', 'Vary': 'Accept-Encoding', 'Alt-Svc': 'h3=":443"; ma=93600', 'Strict-Transport-Security': 'max-age=31536000 ; includeSubDomains ; preload'}
+2026-10-14T14:02:07.9258491Z ERROR::     body '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+2026-10-14T14:02:07.9258525Z ERROR::     Found 0 matching releases for our surveys
+2026-10-14T14:02:09.4262072Z ERROR::   Scraping schedule for 2026...
+2026-10-14T14:02:09.9989502Z ERROR::   WARNING: the page for 2026 holds no release
+2026-10-14T14:02:09.9989842Z ERROR::     status 200, 1660 bytes, 1660 null bytes
+2026-10-14T14:02:09.9989948Z ERROR::     headers {'Content-Type': 'text/html', 'Last-Modified': 'Mon, 29 Sep 2025 20:29:56 GMT', 'ETag': '"07a84d17f31dc1:0"', 'X-XSS-Protection': '1; mode=block', 'P3P': 'CP="NOI DSP COR NID CURaADMa OUR STP"', 'Pool-Info': 'WP3', 'X-Frame-Options': 'ALLOW-FROM https://www.bls.gov', 'Content-Security-Policy': 'frame-ancestors https://*.bls.gov', 'Cross-Origin-Opener-Policy': 'same-origin', 'Content-Encoding': 'gzip', 'Content-Length': '52', 'Date': 'Wed, 14 Oct 2026 14:02:09 GMT', 'Connection': 'keep-alive', 'Vary': 'Accept-Encoding', 'Alt-Svc': 'h3=":443"; ma=93600', 'Strict-Transport-Security': 'max-age=31536000 ; includeSubDomains ; preload'}
+2026-10-14T14:02:09.9990138Z ERROR::     body '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+2026-10-14T14:02:09.9990319Z ERROR::     Found 0 matching releases for our surveys
+2026-10-14T14:02:11.4994623Z ERROR::   Retrying [2025, 2026] in 120s...
+2026-10-14T14:04:11.5027421Z ERROR::   Scraping schedule for 2025...
+2026-10-14T14:04:12.1587636Z ERROR::   WARNING: the page for 2025 holds no release
+2026-10-14T14:04:12.1587860Z ERROR::     status 200, 1637 bytes, 1637 null bytes
+2026-10-14T14:04:12.1587943Z ERROR::     headers {'Content-Type': 'text/html', 'Last-Modified': 'Thu, 03 Oct 2024 17:38:40 GMT', 'ETag': '"0906b15bb15db1:0"', 'X-XSS-Protection': '1; mode=block', 'P3P': 'CP="NOI DSP COR NID CURaADMa OUR STP"', 'Pool-Info': 'WP3', 'X-Frame-Options': 'ALLOW-FROM https://www.bls.gov', 'Content-Security-Policy': 'frame-ancestors https://*.bls.gov', 'Cross-Origin-Opener-Policy': 'same-origin', 'Content-Encoding': 'gzip', 'Content-Length': '45', 'Date': 'Wed, 14 Oct 2026 14:04:11 GMT', 'Connection': 'keep-alive', 'Vary': 'Accept-Encoding', 'Alt-Svc': 'h3=":443"; ma=93600', 'Strict-Transport-Security': 'max-age=31536000 ; includeSubDomains ; preload'}
+2026-10-14T14:04:12.1588098Z ERROR::     body '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+2026-10-14T14:04:12.1588154Z ERROR::     Found 0 matching releases for our surveys
+2026-10-14T14:04:13.6591640Z ERROR::   Scraping schedule for 2026...
+2026-10-14T14:04:14.2823398Z ERROR::   WARNING: the page for 2026 holds no release
+2026-10-14T14:04:14.2823664Z ERROR::     status 200, 1660 bytes, 1660 null bytes
+2026-10-14T14:04:14.2823800Z ERROR::     headers {'Content-Type': 'text/html', 'Last-Modified': 'Mon, 29 Sep 2025 20:29:56 GMT', 'ETag': '"07a84d17f31dc1:0"', 'X-XSS-Protection': '1; mode=block', 'P3P': 'CP="NOI DSP COR NID CURaADMa OUR STP"', 'Pool-Info': 'WP3', 'X-Frame-Options': 'ALLOW-FROM https://www.bls.gov', 'Content-Security-Policy': 'frame-ancestors https://*.bls.gov', 'Cross-Origin-Opener-Policy': 'same-origin', 'Content-Encoding': 'gzip', 'Content-Length': '52', 'Date': 'Wed, 14 Oct 2026 14:04:14 GMT', 'Connection': 'keep-alive', 'Vary': 'Accept-Encoding', 'Alt-Svc': 'h3=":443"; ma=93600', 'Strict-Transport-Security': 'max-age=31536000 ; includeSubDomains ; preload'}
+2026-10-14T14:04:14.2824023Z ERROR::     body '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+2026-10-14T14:04:14.2824076Z ERROR::     Found 0 matching releases for our surveys
+2026-10-14T14:04:15.7826993Z ERROR::   Retrying [2025, 2026] in 300s...
+2026-10-14T14:09:15.7863058Z ERROR::   Scraping schedule for 2025...
+2026-10-14T14:09:16.4277560Z ERROR::   WARNING: the page for 2025 holds no release
+2026-10-14T14:09:16.4277692Z ERROR::     status 200, 1637 bytes, 1637 null bytes
+2026-10-14T14:09:16.4277784Z ERROR::     headers {'Content-Type': 'text/html', 'Last-Modified': 'Thu, 03 Oct 2024 17:38:40 GMT', 'ETag': '"0906b15bb15db1:0"', 'X-XSS-Protection': '1; mode=block', 'P3P': 'CP="NOI DSP COR NID CURaADMa OUR STP"', 'Pool-Info': 'WP3', 'X-Frame-Options': 'ALLOW-FROM https://www.bls.gov', 'Content-Security-Policy': 'frame-ancestors https://*.bls.gov', 'Cross-Origin-Opener-Policy': 'same-origin', 'Content-Encoding': 'gzip', 'Content-Length': '45', 'Date': 'Wed, 14 Oct 2026 14:09:16 GMT', 'Connection': 'keep-alive', 'Vary': 'Accept-Encoding', 'Alt-Svc': 'h3=":443"; ma=93600', 'Strict-Transport-Security': 'max-age=31536000 ; includeSubDomains ; preload'}
+2026-10-14T14:09:16.4277940Z ERROR::     body '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+2026-10-14T14:09:16.4277973Z ERROR::     Found 0 matching releases for our surveys
+2026-10-14T14:09:17.9280434Z ERROR::   Scraping schedule for 2026...
+2026-10-14T14:09:18.4449749Z ERROR::     Found 49 matching releases for our surveys
+2026-10-14T14:09:19.7831435Z ERROR:: Ending Cell 16-----------------------------------------
+2026-10-14T14:09:20.3062615Z ERROR:: Traceback (most recent call last):
+2026-10-14T14:09:20.3062760Z ERROR::   File "/opt/miniconda3/bin/papermill", line 6, in <module>
+2026-10-14T14:09:20.3062797Z ERROR::     sys.exit(papermill())
+2026-10-14T14:09:20.3064267Z ERROR::              ^^^^^^^^^^^
+2026-10-14T14:09:20.3064315Z ERROR::   File "/opt/miniconda3/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+2026-10-14T14:09:20.3066649Z ERROR::     return self.main(*args, **kwargs)
+2026-10-14T14:09:20.3066683Z ERROR::            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T14:09:20.3066713Z ERROR::   File "/opt/miniconda3/lib/python3.11/site-packages/click/core.py", line 1363, in main
+2026-10-14T14:09:20.3067621Z ERROR::     rv = self.invoke(ctx)
+2026-10-14T14:09:20.3067718Z ERROR::          ^^^^^^^^^^^^^^^^
+2026-10-14T14:09:20.3067787Z ERROR::   File "/opt/miniconda3/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+2026-10-14T14:09:20.3068854Z ERROR::     return ctx.invoke(self.callback, **ctx.params)
+2026-10-14T14:09:20.3068936Z ERROR::            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T14:09:20.3068986Z ERROR::   File "/opt/miniconda3/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+2026-10-14T14:09:20.3069694Z ERROR::     return callback(*args, **kwargs)
+2026-10-14T14:09:20.3069751Z ERROR::            ^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T14:09:20.3069819Z ERROR::   File "/opt/miniconda3/lib/python3.11/site-packages/click/decorators.py", line 34, in new_func
+2026-10-14T14:09:20.3071294Z ERROR::     return f(get_current_context(), *args, **kwargs)
+2026-10-14T14:09:20.3071368Z ERROR::            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T14:09:20.3071427Z ERROR::   File "/opt/miniconda3/lib/python3.11/site-packages/papermill/cli.py", line 250, in papermill
+2026-10-14T14:09:20.3073435Z ERROR::     execute_notebook(
+2026-10-14T14:09:20.3073535Z ERROR::   File "/opt/miniconda3/lib/python3.11/site-packages/papermill/execute.py", line 122, in execute_notebook
+2026-10-14T14:09:20.3074621Z ERROR::     raise_for_execution_errors(nb, output_path)
+2026-10-14T14:09:20.3074664Z ERROR::   File "/opt/miniconda3/lib/python3.11/site-packages/papermill/execute.py", line 234, in raise_for_execution_errors
+2026-10-14T14:09:20.3075066Z ERROR::     raise error
+2026-10-14T14:09:20.3075248Z ERROR:: papermill.exceptions.PapermillExecutionError: 
+2026-10-14T14:09:20.3075280Z ERROR:: ---------------------------------------------------------------------------
+2026-10-14T14:09:20.3075323Z ERROR:: Exception encountered at "In [8]":
+2026-10-14T14:09:20.3075395Z ERROR:: ---------------------------------------------------------------------------
+2026-10-14T14:09:20.3075424Z ERROR:: RuntimeError                              Traceback (most recent call last)
+2026-10-14T14:09:20.3075448Z ERROR:: Cell In[8], line 9
+2026-10-14T14:09:20.3075487Z ERROR::       7 run_date = datetime.strptime(deployment_date_str, "%Y%m%d") if INCREMENTAL_MODE else datetime.now()
+2026-10-14T14:09:20.3075582Z ERROR::       8 end_year = run_date.year
+2026-10-14T14:09:20.3075611Z ERROR:: ----> 9 release_map = build_release_date_map(start_year=2000, end_year=end_year)
+2026-10-14T14:09:20.3075649Z ERROR::      10 print(f"Total release dates: {len(release_map)}")
+2026-10-14T14:09:20.3075701Z ERROR::      12 # Wait after scraping before hitting the API
+2026-10-14T14:09:20.3075731Z ERROR:: Cell In[4], line 260, in build_release_date_map(start_year, end_year)
+2026-10-14T14:09:20.3075760Z ERROR::     257 # A missing year drops its rows without a trace, and a cached partial map pins that
+2026-10-14T14:09:20.3075791Z ERROR::     258 # loss to later runs, so fail instead.
+2026-10-14T14:09:20.3075817Z ERROR::     259 if failed_years:
+2026-10-14T14:09:20.3075847Z ERROR:: --> 260     raise RuntimeError(f"No release schedule was scraped for {failed_years}")
+2026-10-14T14:09:20.3075876Z ERROR::     262 cache_data = {}
+2026-10-14T14:09:20.3075932Z ERROR::     263 for (survey_key, ref_year, ref_month), release_dt in release_map.items():
+2026-10-14T14:09:20.3075962Z ERROR:: RuntimeError: No release schedule was scraped for [2025]
+2026-10-14T14:09:20.4640212Z TRACE:: LeanCloudDataRunner.OnExecute(): Execution  process.ipynb finished with exit code 1
+2026-10-14T14:09:20.4641731Z TRACE:: === JobProcessor.Run(): Job finished exit code 1 ===

@@ -1,0 +1,15 @@
+2026-10-12T19:17:17.8228217Z TRACE:: ConsumerSynchronizer.Run(): Received packet, start sync for job: Factors. SynchronizationType: Merge
+2026-10-12T19:17:17.8284636Z TRACE:: UpdateSyncConsumer(): running query: UPDATE qc_datafleet_job_deployments SET live01_sync = 'In Progress', last_update = '2026-10-12 19:17:17' WHERE id = 1086403
+2026-10-12T19:17:17.8665664Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Begin S3 sync for job: Factors from bucket: transfer.quantconnect.com
+2026-10-12T19:18:05.6716016Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): /temp-output-directory/b2a67849-e431-4ad8-94bc-a5cdaf12a07b/20261012_factors_0bd315f7.tar downloaded 1 of 1 (100.000%).
+2026-10-12T19:18:05.6716560Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Extracting tar file /temp-output-directory/b2a67849-e431-4ad8-94bc-a5cdaf12a07b/20261012_factors_0bd315f7.tar
+2026-10-12T19:18:05.6741396Z TRACE:: ProcessHelper.CreateProcess(): tar xf /temp-output-directory/b2a67849-e431-4ad8-94bc-a5cdaf12a07b/20261012_factors_0bd315f7.tar -C /temp-output-directory/b2a67849-e431-4ad8-94bc-a5cdaf12a07b wd: 
+2026-10-12T19:18:08.4347450Z TRACE:: Utils.TryExtractTarArchive(): Unpacking success in 0:00:02.7432264
+2026-10-12T19:18:08.7051051Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Extracted /temp-output-directory/b2a67849-e431-4ad8-94bc-a5cdaf12a07b/20261012_factors_0bd315f7.tar to /temp-output-directory/b2a67849-e431-4ad8-94bc-a5cdaf12a07b
+2026-10-12T19:18:08.7051625Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Copying extracted data from /temp-output-directory/b2a67849-e431-4ad8-94bc-a5cdaf12a07b to /Data
+2026-10-12T19:18:08.7088358Z TRACE:: ProcessHelper.CreateProcess(): rsync -a /temp-output-directory/b2a67849-e431-4ad8-94bc-a5cdaf12a07b/alternative /Data wd: 
+2026-10-12T19:18:13.0598277Z TRACE:: Utils.Merge(): Move success in 0:00:04.3512033
+2026-10-12T19:18:13.0599460Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Factors sync finished successfully, 1 files downloaded in 0:00:55.1932794.
+2026-10-12T19:18:13.0610509Z TRACE:: ConsumerSynchronizer.Run(): Successfully synced Factors
+2026-10-12T19:18:13.0612919Z TRACE:: UpdateSyncConsumer(): running query: UPDATE qc_datafleet_job_deployments SET live01_sync = 'Complete', last_update = '2026-10-12 19:18:13' WHERE id = 1086403
+2026-10-12T19:18:13.0766621Z TRACE:: ConsumerSynchronizer.SendStatusMessage(): No Telegram message will be sent, since sync success alerts have been disabled

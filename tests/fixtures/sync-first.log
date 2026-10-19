@@ -1,0 +1,16 @@
+2026-10-13T11:48:58.3602694Z TRACE:: ConsumerSynchronizer.ShouldSync(): Consumer will synchronize - No prior successful sync jobs found for job "ExtractAlpha Cross-Asset Model Processing" with processing date: 2026-10-13 (deployment ID: 1086729)
+2026-10-13T11:48:58.3666990Z TRACE:: ConsumerSynchronizer.Run(): Received packet, start sync for job: ExtractAlpha Cross-Asset Model Processing. SynchronizationType: Merge
+2026-10-13T11:48:58.3679641Z TRACE:: UpdateSyncConsumer(): running query: UPDATE qc_datafleet_job_deployments SET live01_sync = 'In Progress', last_update = '2026-10-13 11:48:58' WHERE id = 1086729
+2026-10-13T11:48:58.3853471Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Begin S3 sync for job: ExtractAlpha Cross-Asset Model Processing from bucket: transfer.quantconnect.com
+2026-10-13T11:49:04.4175232Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): /temp-output-directory/3f0e1e1d-19bc-48b5-8299-6c562864971b/20261013_extractalpha_cross-asset_model_processing_cbf69161.tar downloaded 1 of 1 (100.000%).
+2026-10-13T11:49:04.4175699Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Extracting tar file /temp-output-directory/3f0e1e1d-19bc-48b5-8299-6c562864971b/20261013_extractalpha_cross-asset_model_processing_cbf69161.tar
+2026-10-13T11:49:04.4211563Z TRACE:: ProcessHelper.CreateProcess(): tar xf /temp-output-directory/3f0e1e1d-19bc-48b5-8299-6c562864971b/20261013_extractalpha_cross-asset_model_processing_cbf69161.tar -C /temp-output-directory/3f0e1e1d-19bc-48b5-8299-6c562864971b wd: 
+2026-10-13T11:49:05.1225724Z TRACE:: Utils.TryExtractTarArchive(): Unpacking success in 0:00:00.6990324
+2026-10-13T11:49:05.1734609Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Extracted /temp-output-directory/3f0e1e1d-19bc-48b5-8299-6c562864971b/20261013_extractalpha_cross-asset_model_processing_cbf69161.tar to /temp-output-directory/3f0e1e1d-19bc-48b5-8299-6c562864971b
+2026-10-13T11:49:05.1735177Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): Copying extracted data from /temp-output-directory/3f0e1e1d-19bc-48b5-8299-6c562864971b to /Data
+2026-10-13T11:49:05.1769722Z TRACE:: ProcessHelper.CreateProcess(): rsync -a /temp-output-directory/3f0e1e1d-19bc-48b5-8299-6c562864971b/alternative /Data wd: 
+2026-10-13T11:49:06.4238128Z TRACE:: Utils.Merge(): Move success in 0:00:01.247132
+2026-10-13T11:49:06.4239539Z TRACE:: ConsumerSynchronizer.SyncFromHttp(): ExtractAlpha Cross-Asset Model Processing sync finished successfully, 1 files downloaded in 0:00:08.0385199.
+2026-10-13T11:49:06.4306401Z TRACE:: ConsumerSynchronizer.Run(): Successfully synced ExtractAlpha Cross-Asset Model Processing
+2026-10-13T11:49:06.4308121Z TRACE:: UpdateSyncConsumer(): running query: UPDATE qc_datafleet_job_deployments SET live01_sync = 'Complete', last_update = '2026-10-13 11:49:06' WHERE id = 1086729
+2026-10-13T11:49:06.4467225Z TRACE:: ConsumerSynchronizer.SendStatusMessage(): No Telegram message will be sent, since sync success alerts have been disabled

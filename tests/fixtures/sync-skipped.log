@@ -1,0 +1,4 @@
+2026-10-10T11:51:03.2369590Z TRACE:: ConsumerSynchronizer.ShouldSync(): Job "QuantConnect ETF Constituents Processing" for processing date: 2026-10-09 will not be synced (deployment ID: 1085204, current time: 2026-10-10 11:51:03, last successful sync: 2026-10-10 11:31:47, crontab: 30 7 * * 2-6, next run: 2026-10-13 11:30:00)
+2026-10-10T11:51:03.2389898Z TRACE:: ConsumerSynchronizer.Run(): Skipping sync for job QuantConnect ETF Constituents Processing because the job's data has already been successfully produced and synchronized by a different job
+2026-10-10T11:51:03.2398380Z TRACE:: UpdateSyncConsumer(): running query: UPDATE qc_datafleet_job_deployments SET live01_sync = 'Skipped', last_update = '2026-10-10 11:51:03' WHERE id = 1085204
+2026-10-10T11:51:03.2538757Z TRACE:: ConsumerSynchronizer.SendStatusMessage(): No Telegram message will be sent, since sync success alerts have been disabled

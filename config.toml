@@ -1,0 +1,278 @@
+# DataMonitorAgent configuration. Every dataset with jobs is checked; nothing here limits the scope.
+# Dataset ids are the Dataset Market ids (`market/data/list`).
+
+[monitor]
+# A scheduled run that has not started this many minutes after its cron time counts as missed.
+missed_grace_minutes = 20
+# A run "In Progress" for longer than this (or the job timeout, when set) counts as stuck.
+stuck_hours = 6
+# Complete runs needed before duration and log size are compared against the job's own history.
+baseline_min_runs = 5
+
+# Datasets whose processor recovers a missed date on its next run (incremental with look-back, or a full
+# re-fetch). A failed date of these is a warning while a later date got published, not a lost date.
+# Only list a dataset after checking its processor; the content check confirms the date is really there.
+[self_healing]
+datasets = [
+    88,   # BLS: rebuilds every series from the API each run (the 10-06 manual run filled June-September)
+    136,  # FINRA Reg SHO: fills business days since the last published universe
+    137,  # FINRA OTC: same, and monthly looks back 180 days
+    138,  # BEA: re-fetches the tables for the year filter each run
+    140,  # Fama French: reads the published seed and appends every day it lacks
+    141,  # Factors: same processor family as Fama French
+]
+
+[dependencies]
+# dataset id -> dataset ids whose output it reads. A failure caused by a missing input points here.
+123 = [38]  # Spectral reads the SPY constituents from US ETF Constituents
+
+# Source probes: public endpoints each processor reads. A probe answers "is the source up from here, now?"
+# so a failed run can be told apart from a source that is down for everyone.
+# Fields: url, optional expect_status (default 200), min_bytes, contains, user_agent ("contact" sends the
+# policy-compliant UA that BLS and SEC require).
+[[probe]]
+dataset = 88
+url = "https://www.bls.gov/schedule/{year}/home.htm"
+min_bytes = 20000
+contains = "Schedule of Releases"
+user_agent = "contact"
+
+[[probe]]
+dataset = 88
+url = "https://www.bls.gov/schedule/{prev_year}/home.htm"
+min_bytes = 20000
+contains = "Schedule of Releases"
+user_agent = "contact"
+
+[[probe]]
+dataset = 135
+url = "https://publicreporting.cftc.gov/resource/6dca-aqww.json?$limit=1"
+contains = "report_date"
+
+[[probe]]
+dataset = 136
+url = "https://cdn.finra.org/equity/regsho/daily/"
+expect_status = 403  # the folder itself is not listable; reaching the CDN is the signal
+
+[[probe]]
+dataset = 137
+url = "https://api.finra.org/data/group/otcMarket/name/weeklySummary?limit=1"
+
+[[probe]]
+dataset = 138
+url = "https://apps.bea.gov/api/data/?method=GETDATASETLIST&ResultFormat=JSON"  # 200 with an empty body without a key: host reachability only
+
+[[probe]]
+dataset = 139
+url = "https://api.eia.gov/v2/electricity/rto"
+expect_status = 403  # needs an API key; a 403 with a JSON body means the API answers
+
+[[probe]]
+dataset = 140
+url = "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html"
+min_bytes = 10000
+
+[[probe]]
+dataset = 141
+url = "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html"
+min_bytes = 10000
+
+[[probe]]
+dataset = 142
+url = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ei_bsco_m?format=JSON&lastTimePeriod=1&geo=EA20&indic=BS-CSMCI&s_adj=SA&unit=BAL"
+contains = "value"
+
+[[probe]]
+dataset = 143
+url = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/ei_bsco_m?format=JSON&lastTimePeriod=1&geo=EA20&indic=BS-CSMCI&s_adj=SA&unit=BAL"
+contains = "value"
+
+[[probe]]
+dataset = 144
+url = "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y?lastNObservations=1&format=csvdata"
+contains = "OBS_VALUE"
+
+[[probe]]
+dataset = 145
+url = "https://data-api.ecb.europa.eu/service/data/FM/B.U2.EUR.4F.KR.DFR.LEV?lastNObservations=1&format=csvdata"
+contains = "OBS_VALUE"
+
+[[probe]]
+dataset = 146
+url = "https://data-api.ecb.europa.eu/service/data/CISS/D.U2.Z0Z.4F.EC.SS_CIN.IDX?lastNObservations=1&format=csvdata"
+contains = "OBS_VALUE"
+
+[[probe]]
+dataset = 147
+url = "https://api.uspto.gov/api/v1/datasets/products"
+expect_status = 403  # needs a key; the gateway answering "Missing Authentication Token" is the signal
+contains = "Authentication"
+
+[[probe]]
+dataset = 149
+url = "https://www.sec.gov/Archives/edgar/daily-index/"
+user_agent = "contact"
+min_bytes = 1000
+
+[[probe]]
+dataset = 151
+url = "https://api.fdic.gov/banks/institutions?limit=1&fields=CERT"
+contains = "CERT"
+
+[[probe]]
+dataset = 152
+url = "https://api.fdic.gov/banks/failures?limit=1&fields=CERT"
+contains = "CERT"
+
+[[probe]]
+dataset = 12
+url = "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value_month={yyyymm}"
+contains = "BC_10YEAR"
+
+[[probe]]
+dataset = 12
+url = "https://www.treasurydirect.gov/TA_WS/securities/search?format=json&pagesize=1&dateFieldName=auctionDate&startDate={date_minus_30}"
+contains = "cusip"
+
+[run]
+# A run runs the cloud sensor when its newest snapshot is older than this; job checks run every time.
+sensor_every_hours = 20
+# ...and only from this UTC hour on, so it reads what the daily jobs published overnight.
+sensor_after_hour_utc = 6
+# The service loop (`python run.py`): one job check per interval. A check of every dataset takes about a minute.
+interval_minutes = 60
+
+[agent]
+# After each cycle, open a Claude CLI session per case with new findings (read-only triage, written to the case
+# folder as analysis.md). Off until enabled here or with `python run.py --agent`.
+enabled = false
+max_sessions_per_cycle = 3
+timeout_minutes = 20
+
+# How long the work folder keeps things; applied at the end of every `run`.
+[retention]
+logs_days = 30          # job and sync logs of runs that completed
+failed_logs_days = 180  # runs that failed: the evidence people come back for
+snapshots = 30          # sensor snapshots, by count (the content judge compares with the last few)
+reports_days = 90       # run reports in reports/runs
+cases_days = 90         # closed cases in reports/cases; open cases are kept while open
+missing_days = 15       # markers of logs that had already expired when first seen
+
+[notify]
+# Channels for new findings. Each one is skipped when its settings are missing.
+# email: DSMON_SMTP_HOST, DSMON_SMTP_PORT (587), DSMON_SMTP_USER, DSMON_SMTP_PASSWORD, DSMON_EMAIL_TO, DSMON_EMAIL_FROM
+# webhook (Slack-compatible JSON {"text": ...}): DSMON_WEBHOOK_URL
+min_severity = "warning"
+
+# Content check (DatasetWatch sensor, run as a cloud backtest by `dsmon content`).
+[content]
+project = "DatasetWatchSensor"
+# alternative/sec and equity/usa/universes/etf hold thousands of per-ticker folders the walk skips: name the
+# dataset folders inside them explicitly.
+roots = "alternative,alternative/sec/13f,equity/usa/universes/etf/spy,equity/usa/universes/etf/qqq"
+peek = "alternative/sec,alternative/ustreasury,equity/usa/universes,equity/usa/universes/etf"
+
+# Which published directories belong to which dataset (prefixes under the data folder). Directories not listed
+# here are matched automatically from the inventory (dsmon/mapping.py); list a dataset only when that guess is
+# wrong or ambiguous.
+[content.paths]
+11 = ["alternative/usenergy"]
+35 = ["alternative/brain/report_10k", "alternative/brain/report_all", "alternative/brain/blmect"]
+128 = ["alternative/brain/bwpv"]
+12 = ["alternative/ustreasury"]
+88 = ["alternative/bls"]
+123 = ["alternative/quantconnect/spectraltickflow"]
+135 = ["alternative/cftc"]
+136 = ["alternative/finra/shortsalevolume", "alternative/finra/shortinterest"]
+137 = ["alternative/finra/weeklysummary", "alternative/finra/monthlysummary"]
+138 = ["alternative/bea"]
+139 = ["alternative/eia"]
+140 = ["alternative/quantconnect/famafrench"]
+141 = ["alternative/quantconnect/factors"]
+142 = ["alternative/eurostat/servicessurvey", "alternative/eurostat/retailsurvey", "alternative/eurostat/industrysurvey",
+       "alternative/eurostat/consumersurvey", "alternative/eurostat/constructionsurvey"]
+143 = ["alternative/eurostat/retailtrade", "alternative/eurostat/producerprices", "alternative/eurostat/labourmarket",
+       "alternative/eurostat/industrialproduction", "alternative/eurostat/grossdomesticproduct",
+       "alternative/eurostat/consumerprices"]
+144 = ["alternative/ecb/yieldcurve"]
+145 = ["alternative/ecb/policyrates"]
+146 = ["alternative/ecb/systemicstress"]
+147 = ["alternative/uspto"]
+149 = ["alternative/sec/13f"]
+151 = ["alternative/fdic/banks", "alternative/fdic/financials"]
+152 = ["alternative/fdic/failures"]
+38 = ["equity/usa/universes/etf"]
+
+# Oldest acceptable newest-date per directory prefix, in days: the dataset's cadence plus its source's publication
+# lag. Judged from the first snapshot, without history. Longest matching prefix wins.
+[content.max_age_days]
+"alternative/finra/shortsalevolume" = 5
+"alternative/finra/shortinterest" = 30
+"alternative/finra/weeklysummary" = 45
+"alternative/finra/monthlysummary" = 80
+"alternative/fdic/banks" = 140  # writes only when the FDIC publishes new or amended reports (quarterly)
+"alternative/fdic/financials" = 140
+"alternative/ecb" = 6
+"alternative/eia" = 6
+"alternative/usenergy" = 10
+"alternative/quantconnect/spectraltickflow" = 6
+"alternative/quantconnect/factors" = 8
+"alternative/quantconnect/famafrench" = 8
+"alternative/uspto/patentmaintenance" = 14
+"alternative/cftc" = 14
+"alternative/ustreasury" = 6
+"alternative/bls" = 70
+"alternative/eurostat" = 80
+"alternative/eurostat/grossdomesticproduct" = 200
+"alternative/bea" = 200
+"equity/usa/universes/etf/spy" = 6
+
+# Calendar of each dated directory, for the missing-date check: "equity-usa" (US equity sessions, from LEAN's
+# market-hours database inside SupportAgent), "federal" (US federal business days), "none" (writes only when the
+# source publishes something), "+N" for files stamped N days after the session. Undeclared directories have their
+# publishing weekdays inferred from their own files. Longest matching prefix wins.
+[content.calendars]
+"alternative/finra" = "equity-usa"
+"alternative/quantconnect/spectraltickflow" = "equity-usa"
+"alternative/quantconnect/factors" = "equity-usa+1"
+"equity/usa/universes/etf" = "equity-usa"
+"alternative/fdic" = "none"
+
+[content.report]
+# Vendors whose directories are summarized, not detailed, when no dataset maps them (discontinued or not ours).
+summarize_unmapped = true
+ignore = ["alternative/alphastreams"]
+
+# Source reconciliation: last rows of these files against the provider (see dsmon/reconcile.py).
+[[reconcile]]
+name = "ECB deposit facility rate"
+dataset = 145
+file = "alternative/ecb/policyrates/u2.csv"
+check = "ecb_series"
+column = 3
+asof = true
+url = "https://data-api.ecb.europa.eu/service/data/FM/B.U2.EUR.4F.KR.DFR.LEV?lastNObservations=10&format=csvdata"
+
+[[reconcile]]
+name = "ECB AAA spot curve, 10 years"
+dataset = 144
+file = "alternative/ecb/yieldcurve/aaa_spot.csv"
+check = "ecb_series"
+column = 9
+tolerance = 0.000001
+url = "https://data-api.ecb.europa.eu/service/data/YC/B.U2.EUR.4F.G_N_A.SV_C_YM.SR_10Y?lastNObservations=15&format=csvdata"
+
+[[reconcile]]
+name = "ECB CISS composite"
+dataset = 146
+file = "alternative/ecb/systemicstress/u2.csv"
+check = "ecb_series"
+column = 2
+tolerance = 0.000001
+url = "https://data-api.ecb.europa.eu/service/data/CISS/D.U2.Z0Z.4F.EC.SS_CIN.IDX?lastNObservations=15&format=csvdata"
+
+[[reconcile]]
+name = "FDIC newest bank failure"
+dataset = 152
+file = "alternative/fdic/failures/failures.csv"
+check = "fdic_latest_failure"

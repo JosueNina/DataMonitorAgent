@@ -1,0 +1,9 @@
+2026-10-08T22:22:31.6608487Z TRACE:: ProcessHelper.CreateProcess(): HistoryExporter/QuantConnect.Data.HistoryExporter forex oanda wd: /QuantConnect.DataFleet.JobProcessor/bin/Release
+2026-10-08T22:22:31.7266896Z TRACE:: HistoryExporter.Run(): Getting symbols for Forex markets: [oanda]
+2026-10-08T22:22:33.9597626Z ERROR:: InfluxdbCommon.GetSymbolsForDate(): Found no symbols
+2026-10-08T22:22:33.9618173Z TRACE:: InfluxdbCommon.GetSymbolsForDate(): Quote matched '0' / scanned '0' distinct symbols in 00:00:02.2255713. Markets [oanda] SecurityTypes [Forex] from 2026-08-14T00:00:00.0000000Z
+2026-10-08T22:22:36.1825943Z TRACE:: InfluxdbCommon.GetSymbolsForDate(): Trade matched '0' / scanned '0' distinct symbols in 00:00:02.2205218. Markets [oanda] SecurityTypes [Forex] from 2026-08-14T00:00:00.0000000Z
+2026-10-08T22:22:36.1858073Z ERROR:: HistoryExporter.Run(): Found no symbols for date 8/14/2026 12:00:00 AM
+2026-10-08T22:22:36.1858364Z ERROR:: HistoryExporter.Main(): Failed to run for date 20260814 markets: [oanda]
+2026-10-08T22:22:36.1922825Z TRACE:: LeanCloudDataRunner.OnExecute(): Execution HistoryExporter/QuantConnect.Data.HistoryExporter forex oanda forex oanda finished with exit code 1
+2026-10-08T22:22:36.1924517Z TRACE:: === JobProcessor.Run(): Job finished exit code 1 ===
