@@ -1,5 +1,5 @@
 """The service loop: one job check of every dataset per interval, the cloud sensor once a day, and (with the agent
-on) a Claude triage session per case with new findings.
+on) a Claude triage session per open case that has no analysis yet, a few per cycle.
 
 Each cycle is the same as `python run.py run`: one report in reports/runs, case folders in reports/cases, retention
 applied. A failed cycle (an API outage) is logged and the loop goes on.
@@ -22,14 +22,18 @@ def cycle(monitor, args, agent):
     monitor.new_cases = []
     code = _run_once(monitor, args)
     log(f"cycle done, exit {code}, {len(monitor.new_cases)} case(s) with new findings")
-    if not agent or not monitor.new_cases:
+    if not agent:
         return
-    from agent_backend import claude_path, triage
-    if not claude_path():
-        log("agent on but the claude CLI is not on PATH: skipping triage")
+    from agent_backend import logged_in, pending_cases, triage
+    todo = pending_cases(monitor.var / "cases")
+    if not todo:
+        return
+    ok, message = logged_in()
+    if not ok:
+        log(f"agent on, but {message}: {len(todo)} case(s) wait for triage")
         return
     settings = monitor.config.get("agent", {})
-    for case_dir in monitor.new_cases[: int(settings.get("max_sessions_per_cycle", 3))]:
+    for case_dir in todo[: int(settings.get("max_sessions_per_cycle", 3))]:
         log(f"triage {case_dir}")
         path = triage(case_dir, int(settings.get("timeout_minutes", 20)))
         log(f"  -> {path}")

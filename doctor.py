@@ -40,11 +40,9 @@ def check_qc_admin():
 
 
 def check_claude():
-    path = shutil.which("claude")
-    if not path:
-        return False, "claude CLI not found on PATH (needed only for --agent)"
-    code, out = _run([path, "--version"])
-    return code == 0, f"claude {out.splitlines()[0] if out else ''}"
+    from agent_backend import logged_in
+    ok, message = logged_in()
+    return ok, message + ("" if ok else " (needed only for --agent)")
 
 
 def check_gh():
