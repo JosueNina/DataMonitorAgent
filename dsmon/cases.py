@@ -2,16 +2,17 @@
 
 `reports/cases/<YYYY-MM-DD>/<dataset-slug>/` holds `case.md` (the dataset's section of the run report, with its
 jobs and repositories) and `case.json` (the findings, which of them are new, and the issue and PR the agent opened
-for it). Runs of the same day refresh the same folder. `reports/cases/index.json` remembers the first case of each
-finding, so a finding that keeps showing up does not start a new case every hour.
+for it). The date is the day the case opened: while it is open, later runs refresh the same folder, whatever the
+day. `reports/cases/index.json` remembers the first case of each finding, so a finding that keeps showing up is new
+only once.
 
-A case stays `open` until someone (or the agent) closes it; retention never deletes an open case.
+A case closes on its own when its dataset comes back to ok and nobody opened an issue or PR for it; with an issue
+or PR it stays open (marked `ok_since`) until someone closes it. Retention never deletes an open case.
 """
 import json
 import re
 import shutil
 import time
-from datetime import datetime
 from pathlib import Path
 
 _DAY = 86400
@@ -27,12 +28,18 @@ def write_cases(folder, check, sections, inventory):
     index_path = folder / "index.json"
     index = _load(index_path, {})
     day = f"{check.checked_at:%Y-%m-%d}"
+    now = check.checked_at.isoformat(timespec="seconds")
+    open_cases = {}
+    for case_json in sorted(folder.glob("*/*/case.json")):
+        if _load(case_json, {}).get("status", "open") == "open":
+            open_cases[case_json.parent.name] = case_json.parent  # the newest open case per dataset wins
     with_new = []
     for label, ids, level, items, markdown in sections:
         if level not in ("critical", "warning"):
+            _settle(open_cases.get(slug(label)), now)
             continue
         acting = [f for f in items if f.severity != "info"]
-        case_dir = folder / day / slug(label)
+        case_dir = open_cases.get(slug(label)) or folder / day / slug(label)
         case_dir.mkdir(parents=True, exist_ok=True)
         relative = case_dir.relative_to(folder).as_posix()
         new = [f.key for f in acting if f.key not in index]
@@ -63,6 +70,19 @@ def write_cases(folder, check, sections, inventory):
     index_path.parent.mkdir(parents=True, exist_ok=True)
     index_path.write_text(json.dumps(index, indent=1), encoding="utf-8")
     return with_new
+
+
+def _settle(case_dir, now):
+    """The dataset is ok again: close its case, or mark it when an issue or PR still needs a person."""
+    if case_dir is None:
+        return
+    path = case_dir / "case.json"
+    case = _load(path, {})
+    if case.get("issue") or case.get("pr"):
+        case.setdefault("ok_since", now)
+    else:
+        case.update(status="closed", closed=now, closed_reason="the dataset is ok again")
+    path.write_text(json.dumps(case, indent=1), encoding="utf-8")
 
 
 def prune_cases(folder, days=90, now=None):

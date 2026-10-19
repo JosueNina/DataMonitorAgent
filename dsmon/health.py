@@ -129,6 +129,10 @@ def evaluate_pipeline(pipeline, inventory, runs_by_job, now, start, settings=Non
     status.last_published = max((r.processing_date for r in runs if r.status == "Complete" and r.processing_date
                                  and (r.published or r.sync_skipped)), default=None)
     _freshness_finding(finding, status, enabled, now)
+    if any(d.state in ("failed", "failed_pending", "not_run") for d in status.dates):
+        for item in status.findings:
+            if item.kind == "redundancy_disabled":
+                item.severity = "warning"
 
     worst = max((SEVERITY_RANK[f.severity] for f in status.findings), default=0)
     status.state = "failing" if worst >= 3 else "degraded" if worst == 2 else "ok"
@@ -219,7 +223,8 @@ def _check_configuration(jobs, enabled, finding, now):
     disabled_redundancies = [j for j in jobs if j.queue == "redundancy" and not j.enabled]
     if primaries and not redundancies:
         if disabled_redundancies:
-            finding("redundancy_disabled", "warning", "The redundancy job is disabled: a failed run is not retried",
+            # A standing configuration, not an incident: info until a date fails that the redundancy would retry.
+            finding("redundancy_disabled", "info", "The redundancy job is disabled: a failed run is not retried",
                     job_ids=[j.id for j in disabled_redundancies],
                     detail=[f"Job {j.id} '{j.name}' is Disabled ({j.schedule} {j.timezone})" for j in disabled_redundancies])
         else:

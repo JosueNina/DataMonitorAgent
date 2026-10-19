@@ -223,8 +223,8 @@ peek = "alternative/sec,alternative/ustreasury,equity/usa/universes,equity/usa/u
 "alternative/ustreasury" = 6
 "alternative/bls" = 70
 "alternative/eurostat" = 80
-"alternative/eurostat/grossdomesticproduct" = 200
-"alternative/bea" = 200
+"alternative/eurostat/grossdomesticproduct" = 250  # quarterly, stamped at the quarter start: Q2 (04-01) until Q3 lands in November
+"alternative/bea" = 290  # quarterly, stamped at the quarter start, released about 3 months after the quarter
 "equity/usa/universes/etf/spy" = 6
 
 # Calendar of each dated directory, for the missing-date check: "equity-usa" (US equity sessions, from LEAN's
@@ -237,6 +237,7 @@ peek = "alternative/sec,alternative/ustreasury,equity/usa/universes,equity/usa/u
 "alternative/quantconnect/factors" = "equity-usa+1"
 "equity/usa/universes/etf" = "equity-usa"
 "alternative/fdic" = "none"
+"alternative/eodhd/economicevents" = "none"  # one folder per country: days without events are normal
 
 [content.report]
 # Vendors whose directories are summarized, not detailed, when no dataset maps them (discontinued or not ours).

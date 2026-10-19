@@ -120,3 +120,31 @@ def test_the_run_report_hands_each_dataset_section_to_its_case(tmp_path):
     assert sections[0][4].startswith("## Brain Sentiment Indicator: CRITICAL") and sections[0][4] in markdown
     cases = write_cases(tmp_path, check, sections, inventory)
     assert [c.name for c in cases] == ["brain-sentiment-indicator"]
+
+
+def test_an_open_case_is_reused_on_later_days_and_closes_when_the_dataset_is_ok(tmp_path):
+    inventory = _inventory()
+    failing = [("Brain Sentiment Indicator", (33,), "critical", [_bls_failure()], "## Brain: CRITICAL\n")]
+    write_cases(tmp_path, _check("2026-10-19T10:00:00"), failing, inventory)
+    write_cases(tmp_path, _check("2026-10-20T10:00:00"), failing, inventory)
+    assert [p.parent.parent.name for p in tmp_path.glob("*/*/case.json")] == ["2026-10-19"]
+    case_json = tmp_path / "2026-10-19" / "brain-sentiment-indicator" / "case.json"
+
+    ok = [("Brain Sentiment Indicator", (33,), "ok", [], "## Brain: OK\n")]
+    write_cases(tmp_path, _check("2026-10-21T10:00:00"), ok, inventory)
+    case = json.loads(case_json.read_text(encoding="utf-8"))
+    assert case["status"] == "closed" and case["closed"].startswith("2026-10-21")
+
+
+def test_a_case_with_an_issue_stays_open_when_the_dataset_recovers(tmp_path):
+    inventory = _inventory()
+    failing = [("Brain Sentiment Indicator", (33,), "critical", [_bls_failure()], "## Brain: CRITICAL\n")]
+    write_cases(tmp_path, _check("2026-10-19T10:00:00"), failing, inventory)
+    case_json = tmp_path / "2026-10-19" / "brain-sentiment-indicator" / "case.json"
+    case = json.loads(case_json.read_text(encoding="utf-8"))
+    case["issue"] = "https://github.com/JosueNina/Lean.DataSource.BrainSentiment/issues/1"
+    case_json.write_text(json.dumps(case), encoding="utf-8")
+    write_cases(tmp_path, _check("2026-10-21T10:00:00"),
+                [("Brain Sentiment Indicator", (33,), "ok", [], "## Brain: OK\n")], inventory)
+    case = json.loads(case_json.read_text(encoding="utf-8"))
+    assert case["status"] == "open" and case["ok_since"].startswith("2026-10-21")
