@@ -94,3 +94,11 @@ def test_coverage_accepts_backups_that_cross_midnight(inventory):
     now = utc("2026-10-14T00:00:00")
     assert coverage_gaps([jobs[380]], [jobs[381]], now=now) is None  # 13F: 23:00 and 01:00 NY, both offset 1
     assert coverage_gaps([jobs[367]], [jobs[368]], now=now) is None  # 18:00 offset 0 and 22:00 offset 1
+
+
+def test_a_redundancy_at_the_same_minute_covers_the_date():
+    # Brain Wikipedia Page Views: both jobs at 12:00 UTC Mon-Fri, offset 0.
+    from dsmon.inventory import Job
+    primary = Job(294, "Brain Wikipedia", True, "0 12 * * 1-5", "UTC", 0, "primary", "", 0, [], [128])
+    backup = Job(295, "Redundancy Brain Wikipedia", True, "0 12 * * 1-5", "UTC", 0, "redundancy", "", 0, [], [128])
+    assert coverage_gaps([primary], [backup], now=utc("2026-10-19T00:00:00")) is None

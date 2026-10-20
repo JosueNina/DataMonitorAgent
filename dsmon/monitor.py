@@ -160,6 +160,7 @@ class Monitor:
         check = self.check(dataset_ids, hours=hours)
         every = float(self.config.get("run", {}).get("sensor_every_hours", 20))
         # The sensor reads what the daily jobs published, so a cycle before they have run would only read yesterday.
+        # A first install has no snapshot at all: it runs the sensor right away.
         after_hour = int(self.config.get("run", {}).get("sensor_after_hour_utc", 0))
         history = SnapshotStore(self.var / "content").history(limit=1)
         age_hours = None
@@ -167,7 +168,7 @@ class Monitor:
             age_hours = (datetime.now(timezone.utc) - datetime.fromtimestamp(history[-1].get("at", 0), timezone.utc)
                          ).total_seconds() / 3600
         run_sensor = sensor == "always" or (sensor == "auto" and (age_hours is None or age_hours >= every)
-                                            and check.checked_at.hour >= after_hour)
+                                            and (age_hours is None or check.checked_at.hour >= after_hour))
         content = None
         if sensor != "never" or history:
             try:
@@ -443,12 +444,14 @@ class Monitor:
         total = len(attempts)
         main, count = max(causes.items(), key=lambda kv: kv[1])
         same = "same cause" if count == len(failed) else f"{count} with the same cause"
+        if main == "unknown":
+            same = "cause not recognized" if count == len(failed) else f"{count} with a cause not recognized"
         # Critical once two dates of the week were left unpublished; a redundancy that covered every failure, or a
         # single lost date (already its own critical finding), keeps it a warning.
         severity = "critical" if len(lost) >= 2 else "warning"
         item = Finding("recurring_failure", severity,
-                       f"Failing repeatedly: {len(failed)} of the last {total} runs failed, {same} "
-                       f"({CAUSE_LABELS.get(main, main)})",
+                       f"Failing repeatedly: {len(failed)} of the last {total} runs failed, {same}"
+                       + ("" if main == "unknown" else f" ({CAUSE_LABELS.get(main, main)})"),
                        status.key, status.dataset_ids, job_ids=sorted({j for j, _ in failed}),
                        detail=lines + [f"Last {days} days, one attempt per job and processing date."])
         item.context["cause"] = main

@@ -250,7 +250,8 @@ def _check_configuration(jobs, enabled, finding, now):
 
 
 def coverage_gaps(primaries, redundancies, days=14, now=None):
-    """For the next `days`, primary runs whose processing date no later redundancy run (within 24 h) processes.
+    """For the next `days`, primary runs whose processing date no redundancy run at or after it (within 48 h)
+    processes.
     Returns (primary runs checked, explanations) or None when everything is covered."""
     if not primaries or not redundancies:
         return None
@@ -274,9 +275,10 @@ def coverage_gaps(primaries, redundancies, days=14, now=None):
             first_by_day.setdefault(day, (fire, job))
     checked, gaps = len(first_by_day), []
     for day, (fire, job) in sorted(first_by_day.items()):
-        # Covered when some redundancy run after the primary's first run for the date processes the same date.
-        # High-frequency jobs (hourly) process a date many times; one later backup run for it is enough.
-        if any(d == day and fire < f <= fire + timedelta(hours=48) for f, d, _ in backups):
+        # Covered when some redundancy run at or after the primary's first run for the date processes the same
+        # date: a run at the same minute is independent and publishes the date on its own (Brain Wikipedia runs
+        # both jobs at 12:00). High-frequency jobs (hourly) process a date many times; one backup run is enough.
+        if any(d == day and fire <= f <= fire + timedelta(hours=48) for f, d, _ in backups):
             continue
         after = sorted((f, d, j) for f, d, j in backups if fire < f <= fire + timedelta(hours=24))
         if after:

@@ -80,6 +80,14 @@ def actions_for(finding):
                 "fix the cause or schedule the primary later, so the date does not depend on the redundancy."]
     if kind == "recurring_failure":
         cause = (finding.context or {}).get("cause", "unknown")
+        if cause == "unknown":
+            # No rule recognized the logs: nothing says the failures share a cause, so do not claim it.
+            steps = ["Read the newest failed log (the `log` command): the monitor did not recognize its cause, so "
+                     "it cannot tell whether the failures share one. Add a rule to dsmon/logs.py once it is known."]
+            if not (finding.context or {}).get("has_redundancy"):
+                steps.append("Ask the data team to enable a redundancy job with the same processing date, so a "
+                             "failed run is retried the same day.")
+            return steps
         steps = [f"This is not transient: the same cause on several days ({CAUSE_SHORT.get(cause, cause)}). Fix it "
                  "in the processor or in how it reaches the source, rather than re-running dates; until then every "
                  "failure delays or loses a date."]

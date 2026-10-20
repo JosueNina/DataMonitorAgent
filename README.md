@@ -21,6 +21,10 @@ python run.py
 - once a day, after 06:00 UTC, the DatasetWatch sensor: a cloud backtest that reads the published data folder
 - after each cycle, one report and a case folder per dataset that needs action
 
+The first cycle downloads about a week of job and sync logs for every job and runs the sensor right away: expect
+10 to 20 minutes and a few hundred MB in `reports/`. Later cycles reuse that copy and take about a minute. The loop
+runs in the foreground; stop it with Ctrl+C, and start it again with the same command (nothing is lost).
+
 Other forms:
 
 ```
