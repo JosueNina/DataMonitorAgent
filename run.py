@@ -10,6 +10,9 @@
 import sys
 from pathlib import Path
 
+if sys.version_info < (3, 11):
+    raise SystemExit(f"DataMonitorAgent needs Python 3.11 or newer; this is {sys.version.split()[0]}.")
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 COMMANDS = {"run", "check", "content", "inventory", "runs", "log", "probe"}
