@@ -158,6 +158,12 @@ def _judge_dated(finding, dated, today, calendar=None):
         around = [n for i, (_, n) in enumerate(sized) if i != index and abs(i - index) <= 10]
         if len(around) >= 5:
             median = statistics.median(around)
+            # A weekday that is always this size is a pattern, not a partial publication: Factors kept 505-row
+            # Saturday files of an older build next to its 11k-row weekday files.
+            weekday = _day(stamp).weekday()
+            same = [n for i, (s, n) in enumerate(sized) if i != index and _day(s).weekday() == weekday]
+            if len(same) >= 3 and rows >= 0.25 * statistics.median(same):
+                continue
             if median >= 20 and rows < 0.25 * median:
                 finding("content_thin_date", "warning", f"{stamp} holds {rows} rows against a usual {median:g}",
                         ["A date with a fraction of its usual rows is a partial publication: the rest of the "

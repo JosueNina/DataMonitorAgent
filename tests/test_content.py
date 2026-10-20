@@ -44,6 +44,18 @@ def test_a_thin_date_is_found():
     assert kinds(judge(current, [], today=TODAY)) == ["content_thin_date"]
 
 
+def test_a_weekday_that_is_always_small_is_not_thin():
+    # Factors: 11k-row weekday files next to 505-row Saturday files left by an older build.
+    days, day = [], date(2026, 8, 24)
+    while day <= date(2026, 10, 17):
+        if day.weekday() < 6:
+            days.append(day)
+        day += timedelta(days=1)
+    saturdays = {d: 505 for d in days if d.weekday() == 5}
+    current = snapshot([{"p": "alternative/x/universe", "dated": dated_facts(days[-45:], 11500, saturdays)}])
+    assert "content_thin_date" not in kinds(judge(current, [], today=date(2026, 10, 19)))
+
+
 def test_identity_collisions_and_unsorted_rows():
     days = business_days(date(2026, 9, 20), date(2026, 10, 14))
     dated = dated_facts(days)

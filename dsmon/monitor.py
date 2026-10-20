@@ -424,13 +424,15 @@ class Monitor:
         # Repeatedly means on two or more dates; a primary and its redundancy failing the same date is one.
         if len({day for _, day in failed}) < 2:
             return None
-        causes, lines, lost = {}, [], set()
+        causes, lines, lost, latest = {}, [], set(), None
         healing = bool(set(status.dataset_ids) & self.self_healing)
         for (job_id, day), entry in sorted(failed.items(), key=lambda kv: kv[0][1]):
             run = max(entry["failed"], key=lambda r: r.started)
             diagnosis = self.run_diagnosis(run)
             category = diagnosis.category if diagnosis else "unknown"
             causes[category] = causes.get(category, 0) + 1
+            if diagnosis and (latest is None or run.started > latest[0].started):
+                latest = (run, diagnosis)
             recovered = any(v["ok"] for (j, d), v in attempts.items() if d == day and j != job_id)
             # A date is lost when no job published it, unless a self-healing processor published a later one.
             healed = healing and status.last_published is not None and status.last_published > day
@@ -450,6 +452,12 @@ class Monitor:
                        status.key, status.dataset_ids, job_ids=sorted({j for j, _ in failed}),
                        detail=lines + [f"Last {days} days, one attempt per job and processing date."])
         item.context["cause"] = main
+        if latest:
+            # The newest failed log's own lines, so whoever reads the case can check the cause label against it.
+            run, diagnosis = latest
+            item.diagnosis = diagnosis
+            item.run_ids = [run.id]
+            item.detail.append(f"Newest failed run {run.id}: {diagnosis.summary[:300]}")
         item.context["has_redundancy"] = any(inventory.jobs[j].enabled and inventory.jobs[j].queue == "redundancy"
                                              for j in status.job_ids if j in inventory.jobs)
         return item
