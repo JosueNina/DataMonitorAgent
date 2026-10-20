@@ -11,6 +11,7 @@ from pathlib import Path
 
 BASE_URL = "https://www.quantconnect.com/api/v2"
 DOTENV = Path(__file__).resolve().parent.parent / ".env"
+LEAN_CREDENTIALS = Path.home() / ".lean" / "credentials"  # written by `lean login`
 
 
 class ApiError(RuntimeError):
@@ -19,8 +20,11 @@ class ApiError(RuntimeError):
 
 class QCApi:
     def __init__(self, user_id=None, api_token=None, organization_id=None, base_url=BASE_URL, retries=3, timeout=60):
-        self.user_id = user_id or env_value("QC_USER_ID", "QC_JOB_USER_ID")
-        self.api_token = api_token or env_value("QC_API_TOKEN", "QC_API_ACCESS_TOKEN")
+        found_user, found_token = credentials()
+        self.user_id = user_id or found_user
+        self.api_token = api_token or found_token
+        if not self.user_id or not self.api_token:
+            raise ApiError("no QuantConnect credentials: run `python run.py` once to enter them, or `lean login`")
         self.organization_id = organization_id or env_value("QC_ORGANIZATION_ID", "QC_JOB_ORGANIZATION_ID", required=False)
         self.base_url = base_url
         self.retries = retries
@@ -61,6 +65,28 @@ def fetch_text(url, timeout=60):
     """GET a presigned S3 URL (job and sync logs)."""
     with urllib.request.urlopen(url, timeout=timeout) as response:
         return response.read().decode("utf-8", errors="replace")
+
+
+def credentials():
+    """(user id, API token) from the environment, .env, the Windows user scope, or the lean CLI login."""
+    user = env_value("QC_USER_ID", "QC_JOB_USER_ID", required=False)
+    token = env_value("QC_API_TOKEN", "QC_API_ACCESS_TOKEN", required=False)
+    if user and token:
+        return user, token
+    try:
+        lean = json.loads(LEAN_CREDENTIALS.read_text(encoding="utf-8"))
+        return str(lean["user-id"]), lean["api-token"]
+    except (OSError, ValueError, KeyError):
+        return user, token
+
+
+def save_credentials(user, token):
+    """Write the credentials to the repository's .env (not tracked), keeping any other line already there."""
+    lines = DOTENV.read_text(encoding="utf-8").splitlines() if DOTENV.exists() else []
+    lines = [l for l in lines if not l.startswith(("QC_USER_ID=", "QC_API_TOKEN="))]
+    DOTENV.write_text("\n".join(lines + [f"QC_USER_ID={user}", f"QC_API_TOKEN={token}"]) + "\n", encoding="utf-8")
+    global _DOTENV
+    _DOTENV = None
 
 
 def env_value(*names, required=True):

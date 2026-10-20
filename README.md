@@ -2,24 +2,28 @@
 
 Watches every QuantConnect dataset: whether its DataFleet jobs published each processing date, why they did not,
 and whether the published files are sound. Each dataset that needs action gets a case folder with the evidence, and
-(optionally) a Claude CLI session that triages it.
+a Claude CLI session that triages it.
 
 ## Run it
 
-Requirements: Python 3.11+, no packages. Credentials are the ones already on the machine: QuantConnect API
-credentials (environment or `.env`, see `.env.example`), and for the agent the `claude` CLI and `gh`, logged in.
+Requirements: Python 3.11+, no packages.
 
 ```
-python run.py doctor
 python run.py
 ```
 
-`doctor` checks Python, the QuantConnect credentials, access to the DataFleet admin routes, the reports folder,
-`claude`, `gh` and `git`. `python run.py` then keeps going until stopped:
+That is all. QuantConnect credentials are taken from the machine: the `lean` CLI login (`lean login`), the
+environment (`QC_USER_ID`, `QC_API_TOKEN`) or `.env`. When none is found, the first run asks for the user id and
+API token, checks them against DataFleet and keeps them in `.env` (not tracked). The agent uses the `claude` CLI as it
+is logged in on the machine; when it is not, cases still get written and wait for triage. `python run.py doctor`
+checks all of it: Python, credentials, DataFleet access, the reports folder, `claude`, `gh` and `git`.
+
+`python run.py` keeps going until stopped:
 
 - every hour, a job check of every dataset with jobs (about a minute)
 - once a day, after 06:00 UTC, the DatasetWatch sensor: a cloud backtest that reads the published data folder
-- after each cycle, one report and a case folder per dataset that needs action
+- after each cycle, one report and a case folder per dataset that needs action, and a Claude triage of up to three
+  cases that have no analysis yet
 
 The first cycle downloads about a week of job and sync logs for every job and runs the sensor right away: expect
 10 to 20 minutes and a few hundred MB in `reports/`. Later cycles reuse that copy and take about a minute. The loop
@@ -30,7 +34,7 @@ Other forms:
 ```
 python run.py --once                 one cycle, then exit
 python run.py --once 88 "fama"       only these datasets (ids or name fragments)
-python run.py --agent                also triage new cases with the claude CLI
+python run.py --once --agent         one cycle with triage even when [agent] enabled is false
 python run.py triage reports/cases/2026-10-19/us-bureau-of-labor-statistics-bls
 python run.py check 88 --hours 72    the monitor's commands: run, check, content, inventory, runs, log, probe
 ```
@@ -68,8 +72,8 @@ case and do not mark it new again.
 
 ## The agent
 
-With `--agent` (or `[agent] enabled = true`), each case with new findings gets one `claude -p` session, at most
-`max_sessions_per_cycle` per cycle. The session follows `skills/triage/SKILL.md`: rule out a false positive, rate
+With `[agent] enabled = true` (the default) or `--agent`, each open case without an analysis gets one `claude -p`
+session, critical cases first, at most `max_sessions_per_cycle` per cycle. The session follows `skills/triage/SKILL.md`: rule out a false positive, rate
 the cause as direct (a stack trace, a reproducible response: act now) or inferred (a missing date, a flaky source:
 confirm on the next run), locate the fix, and draft an issue in the LEAN format. It is read-only: its tools are
 reading files and the web and read-only `gh` calls, and its answer goes to `analysis.md`.

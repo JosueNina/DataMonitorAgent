@@ -143,9 +143,9 @@ sensor_after_hour_utc = 6
 interval_minutes = 60
 
 [agent]
-# After each cycle, open a Claude CLI session per case with new findings (read-only triage, written to the case
-# folder as analysis.md). Off until enabled here or with `python run.py --agent`.
-enabled = false
+# After each cycle, open a Claude CLI session per open case without an analysis (read-only triage, written to the
+# case folder as analysis.md). Skipped, with a log line, while the claude CLI is not logged in.
+enabled = true
 max_sessions_per_cycle = 3
 timeout_minutes = 20
 

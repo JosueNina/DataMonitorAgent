@@ -22,12 +22,36 @@ def check_python():
 
 
 def check_qc_credentials():
-    from dsmon.api import env_value
-    user = env_value("QC_USER_ID", "QC_JOB_USER_ID", required=False)
-    token = env_value("QC_API_TOKEN", "QC_API_ACCESS_TOKEN", required=False)
+    from dsmon.api import credentials
+    user, token = credentials()
     if not user or not token:
-        return False, "QC_USER_ID and QC_API_TOKEN are not set (environment or .env)"
+        return False, "no QuantConnect credentials: run `python run.py` to enter them, or `lean login`"
     return True, "QuantConnect credentials found"
+
+
+def ensure_credentials():
+    """First run: when no credentials are found anywhere, ask for them once, check them, and keep them in .env."""
+    import getpass
+    from dsmon.api import QCApi, credentials, save_credentials
+    if all(credentials()):
+        return True
+    if not sys.stdin.isatty():
+        print("No QuantConnect credentials found. Run `python run.py` in a terminal once to enter them.",
+              file=sys.stderr)
+        return False
+    print("QuantConnect API credentials (Account page, API Access). They are checked, then kept in .env here.")
+    for _ in range(3):
+        user = input("User id: ").strip()
+        token = getpass.getpass("API token (hidden): ").strip()
+        try:
+            jobs = QCApi(user, token, retries=1).post_form("/market/dashboard/data-job/list/").get("list", [])
+        except Exception as error:
+            print(f"Those credentials do not open the DataFleet job list: {str(error)[:200]}")
+            continue
+        save_credentials(user, token)
+        print(f"Saved. DataFleet job list readable ({len(jobs)} jobs).")
+        return True
+    return False
 
 
 def check_qc_admin():

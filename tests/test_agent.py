@@ -148,3 +148,25 @@ def test_a_case_with_an_issue_stays_open_when_the_dataset_recovers(tmp_path):
                 [("Brain Sentiment Indicator", (33,), "ok", [], "## Brain: OK\n")], inventory)
     case = json.loads(case_json.read_text(encoding="utf-8"))
     assert case["status"] == "open" and case["ok_since"].startswith("2026-10-21")
+
+
+def test_credentials_fall_back_to_the_lean_cli_login(tmp_path, monkeypatch):
+    from dsmon import api
+    lean = tmp_path / "credentials"
+    lean.write_text('{"user-id": "123", "api-token": "abc"}', encoding="utf-8")
+    monkeypatch.setattr(api, "LEAN_CREDENTIALS", lean)
+    monkeypatch.setattr(api, "env_value", lambda *names, required=True: None)
+    assert api.credentials() == ("123", "abc")
+    lean.unlink()
+    assert api.credentials() == (None, None)
+
+
+def test_saved_credentials_keep_the_other_lines_of_dotenv(tmp_path, monkeypatch):
+    from dsmon import api
+    dotenv = tmp_path / ".env"
+    dotenv.write_text("DSMON_EMAIL_TO=a@b.c\nQC_USER_ID=old\n", encoding="utf-8")
+    monkeypatch.setattr(api, "DOTENV", dotenv)
+    api.save_credentials("123", "abc")
+    assert dotenv.read_text(encoding="utf-8").splitlines() == ["DSMON_EMAIL_TO=a@b.c", "QC_USER_ID=123",
+                                                               "QC_API_TOKEN=abc"]
+    assert api._dotenv()["QC_USER_ID"] == "123"
