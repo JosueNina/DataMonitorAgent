@@ -76,13 +76,26 @@ def test_duplicates_only_alarm_when_they_grow():
     assert kinds(judge(grew, [before], today=TODAY)) == ["content_dups_grew"]
 
 
-def test_newest_date_that_stopped_moving_is_stale():
-    files = {"sampled": 5, "rows": 50, "unsorted": 0, "dups": 0, "bad": 0, "errors": [], "worst": [],
-             "newest_last": "20260706"}
-    old = [snapshot([{"p": "alternative/finra/monthlysummary", "files": files}],
-                    at=datetime(2026, 10, 1, tzinfo=timezone.utc) + timedelta(days=i)) for i in range(3)]
-    current = snapshot([{"p": "alternative/finra/monthlysummary", "files": files}])
+def _files(newest):
+    return {"sampled": 5, "rows": 50, "unsorted": 0, "dups": 0, "bad": 0, "errors": [], "worst": [],
+            "newest_last": newest}
+
+
+def test_newest_date_that_advanced_then_stopped_is_stale():
+    path = "alternative/vendor/daily"
+    old = [snapshot([{"p": path, "files": _files("20260930")}], at=datetime(2026, 9, 30, tzinfo=timezone.utc)),
+           snapshot([{"p": path, "files": _files("20261001")}], at=datetime(2026, 10, 1, tzinfo=timezone.utc))]
+    current = snapshot([{"p": path, "files": _files("20261001")}])
     assert "content_stale" in kinds(judge(current, old, today=TODAY))
+
+
+def test_a_folder_that_never_moved_while_watched_is_not_stale():
+    # Historical or slow folders (Brain 2010 rankings, a quarterly GDP): their age is the max_age check's job.
+    path = "alternative/vendor/history"
+    old = [snapshot([{"p": path, "files": _files("20100129")}],
+                    at=datetime(2026, 10, 1, tzinfo=timezone.utc) + timedelta(days=i)) for i in range(3)]
+    current = snapshot([{"p": path, "files": _files("20100129")}])
+    assert "content_stale" not in kinds(judge(current, old, today=TODAY))
 
 
 def test_caches_are_ignored():

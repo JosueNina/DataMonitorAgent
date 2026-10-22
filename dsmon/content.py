@@ -214,14 +214,23 @@ def _judge_progress(finding, path, facts, history):
             seen.append((datetime.fromtimestamp(snapshot.get("at", 0), timezone.utc).date(), old_newest))
     if not seen:
         return
-    unchanged_since = None
+    unchanged_since, previous = None, None
     for when, value in reversed(seen):
         if value != newest:
+            previous = value
             break
         unchanged_since = when
+    # Stale means it advanced while we watched and then stopped. A folder that never moved in the history is
+    # historical, discontinued or slow (monthly, quarterly, event-driven): its age is _judge_age's to judge.
+    if previous is None:
+        return
+    try:
+        step = (_day(newest) - _day(previous)).days
+    except (TypeError, ValueError):
+        return  # not a date (an id-like stamp): nothing to measure
     dated = facts.get("dated", {})
     days = sorted({_day(r["d"]) for r in dated.get("recent", []) if r.get("d")})
-    cadence = _cadence(days) or 1
+    cadence = max(_cadence(days) or 1, step, 1)
     if unchanged_since:
         waited = (datetime.now(timezone.utc).date() - unchanged_since).days
         if waited > 3 * max(cadence, 1) + 3:
