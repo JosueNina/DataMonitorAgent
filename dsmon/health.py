@@ -4,7 +4,7 @@ The question a check answers is not "did a job fail" (DataFleet already mails th
 dataset publish every date it should have, and if not, why".
 """
 from dataclasses import dataclass, field
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, datetime, time, timedelta, timezone
 
 from .cron import Cron, CronError
 
@@ -129,6 +129,11 @@ def evaluate_pipeline(pipeline, inventory, runs_by_job, now, start, settings=Non
     status.last_published = max((r.processing_date for r in runs if r.status == "Complete" and r.processing_date
                                  and (r.published or r.sync_skipped)), default=None)
     _freshness_finding(finding, status, enabled, now)
+    for item in status.findings:
+        if item.kind == "run_stuck" and item.processing_date and not scheduled_date(enabled, item.processing_date):
+            # A manual run on a date no cron processes (a Sunday of a Mon-Fri pipeline): stop it, re-run nothing.
+            item.context["off_schedule_date"] = True
+            item.detail.append(f"No scheduled run processes {item.processing_date}: this run was started by hand.")
     if any(d.state in ("failed", "failed_pending", "not_run") for d in status.dates):
         for item in status.findings:
             if item.kind == "redundancy_disabled":
@@ -247,6 +252,19 @@ def _check_configuration(jobs, enabled, finding, now):
     if len(commits) > 1:
         finding("commit_mismatch", "warning", "Jobs of one pipeline run different commits",
                 job_ids=[j.id for j in enabled], detail=[f"Job {j.id}: {j.commit}" for j in enabled])
+
+
+def scheduled_date(jobs, day):
+    """Whether some job's cron, with its offset, processes `day` (processing date = UTC run date - offset)."""
+    for job in jobs:
+        try:
+            cron = Cron(job.schedule, job.timezone)
+        except CronError:
+            return True  # unreadable schedule: do not claim the date is off schedule
+        start = datetime.combine(day + timedelta(days=job.offset), time.min, timezone.utc)
+        if cron.fires_between(start, start + timedelta(days=1)):
+            return True
+    return False
 
 
 def coverage_gaps(primaries, redundancies, days=14, now=None):

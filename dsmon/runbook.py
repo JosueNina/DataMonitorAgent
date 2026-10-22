@@ -57,6 +57,9 @@ def actions_for(finding):
     if kind == "commit_mismatch":
         return ["Point every job of the pipeline at the same commit (Commit URL + Force Build)."]
     if kind == "run_stuck":
+        if (finding.context or {}).get("off_schedule_date"):
+            return [f"Stop the run in the DataFleet panel. No scheduled run processes {day}, so there is nothing to "
+                    "re-run: it was started by hand, probably with the Manual Run's default date."]
         return ["Check the run in the DataFleet panel and stop it if it is hung.",
                 "Then: " + manual.format(date=day)]
     if kind in ("date_not_run", "run_missed"):

@@ -157,15 +157,14 @@ def _judge_dated(finding, dated, today, calendar=None):
     for index, (stamp, rows) in enumerate(sized[-10:], start=max(0, len(sized) - 10)):
         around = [n for i, (_, n) in enumerate(sized) if i != index and abs(i - index) <= 10]
         if len(around) >= 5:
-            median = statistics.median(around)
-            # A weekday that is always this size is a pattern, not a partial publication: Factors kept 505-row
-            # Saturday files of an older build next to its 11k-row weekday files.
+            # The same weekday is the baseline when there is enough of it: Factors keeps 505-row Saturday files of an
+            # older build next to its 11k-row weekday files, and CNBC's Sundays hold a handful of mentions.
             weekday = _day(stamp).weekday()
             same = [n for i, (s, n) in enumerate(sized) if i != index and _day(s).weekday() == weekday]
-            if len(same) >= 3 and rows >= 0.25 * statistics.median(same):
-                continue
+            median = statistics.median(same) if len(same) >= 3 else statistics.median(around)
             if median >= 20 and rows < 0.25 * median:
-                finding("content_thin_date", "warning", f"{stamp} holds {rows} rows against a usual {median:g}",
+                basis = f"a usual {median:g} on {_day(stamp):%A}s" if len(same) >= 3 else f"a usual {median:g}"
+                finding("content_thin_date", "warning", f"{stamp} holds {rows} rows against {basis}",
                         ["A date with a fraction of its usual rows is a partial publication: the rest of the "
                          "entities have no data that day."], _day(stamp))
 

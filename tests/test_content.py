@@ -125,3 +125,15 @@ def test_declared_calendar_decides_the_expected_days():
     # Good Friday is closed for equities, open for the federal calendar
     assert date(2026, 4, 3) not in expected_days("equity-usa", date(2026, 4, 1), date(2026, 4, 6))
     assert date(2026, 4, 3) in expected_days("federal", date(2026, 4, 1), date(2026, 4, 6))
+
+
+def test_a_sunday_is_judged_against_other_sundays():
+    # CNBC: weekdays near 30 rows, Sundays a handful.
+    days, day = [], date(2026, 8, 31)
+    while day <= date(2026, 10, 14):
+        days.append(day)
+        day += timedelta(days=1)
+    sizes = {d: (2 if d.weekday() == 6 else 30) for d in days}
+    sizes[date(2026, 10, 11)] = 1
+    current = snapshot([{"p": "alternative/x/universe", "dated": dated_facts(days, 30, sizes)}])
+    assert "content_thin_date" not in kinds(judge(current, [], today=TODAY))

@@ -102,3 +102,17 @@ def test_a_redundancy_at_the_same_minute_covers_the_date():
     primary = Job(294, "Brain Wikipedia", True, "0 12 * * 1-5", "UTC", 0, "primary", "", 0, [], [128])
     backup = Job(295, "Redundancy Brain Wikipedia", True, "0 12 * * 1-5", "UTC", 0, "redundancy", "", 0, [], [128])
     assert coverage_gaps([primary], [backup], now=utc("2026-10-19T00:00:00")) is None
+
+
+def test_a_stuck_manual_run_on_a_date_no_cron_processes_is_not_re_run():
+    from dsmon.inventory import Job
+    from dsmon.health import scheduled_date
+    from dsmon.runbook import actions_for
+    from dsmon.health import Finding
+    from datetime import date
+    job = Job(211, "Security Master", True, "0 4 * * 2-6", "America/New_York", 1, "primary", "", 0, [], [4])
+    assert scheduled_date([job], date(2026, 10, 16))       # Friday: the Saturday 04:00 run
+    assert not scheduled_date([job], date(2026, 10, 18))   # Sunday: nothing fires on Monday
+    item = Finding("run_stuck", "critical", "stuck", "sm", [4], [211], date(2026, 10, 18), [1090444])
+    item.context["off_schedule_date"] = True
+    assert all("Manual Run" not in a or "default date" in a for a in actions_for(item))
