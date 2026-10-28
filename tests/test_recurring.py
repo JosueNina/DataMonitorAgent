@@ -62,3 +62,18 @@ def test_two_lost_dates_without_self_healing_are_critical(inventory):
                                Settings())
     item = _Monitor(inventory, {}, self_healing=())._recurring_failure(status, {325: runs}, NOW)
     assert item.severity == "critical"
+
+
+def test_failures_that_lost_nothing_and_recovered_are_info(inventory):
+    # BLS 10-24 and 10-25: two weekend failures (the API answered 503), then three good days in a row.
+    runs = [make_run(325, "2026-10-16T14:00:00", sync="published"),
+            make_run(325, "2026-10-15T14:00:00", sync="published"),
+            make_run(325, "2026-10-14T14:00:00", sync="published"),
+            make_run(325, "2026-10-13T14:00:00", "Failed"),
+            make_run(325, "2026-10-12T14:00:00", "Failed"),
+            make_run(325, "2026-10-11T14:00:00", sync="published")]
+    status = evaluate_pipeline(pipeline_for(inventory, 88), inventory, {325: runs}, NOW, NOW - timedelta(hours=36),
+                               Settings())
+    monitor = _Monitor(inventory, {runs[3].id: "source_unavailable", runs[4].id: "source_unavailable"})
+    item = monitor._recurring_failure(status, {325: runs}, NOW)
+    assert item is not None and item.severity == "info"

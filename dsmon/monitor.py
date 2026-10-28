@@ -449,6 +449,16 @@ class Monitor:
         # Critical once two dates of the week were left unpublished; a redundancy that covered every failure, or a
         # single lost date (already its own critical finding), keeps it a warning.
         severity = "critical" if len(lost) >= 2 else "warning"
+        # Nothing lost and the newest two dates published: it failed, recovered, and nobody has to act (BLS after a
+        # weekend of 503s from its API). Kept as info so the history still shows it.
+        # Recovered means the jobs that failed succeed again on their own newest two dates; a primary that keeps
+        # failing while its redundancy publishes (Spectral) is still failing.
+        recovered_now = True
+        for job_id in {j for j, _ in failed}:
+            own = sorted((d, v["ok"]) for (j, d), v in attempts.items() if j == job_id)[-2:]
+            recovered_now &= len(own) == 2 and all(ok for _, ok in own)
+        if not lost and recovered_now:
+            severity = "info"
         item = Finding("recurring_failure", severity,
                        f"Failing repeatedly: {len(failed)} of the last {total} runs failed, {same}"
                        + ("" if main == "unknown" else f" ({CAUSE_LABELS.get(main, main)})"),
