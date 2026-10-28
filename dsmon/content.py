@@ -5,6 +5,7 @@ the ones before it. Most data problems only show as a change: a duplicate row is
 rows per date and alarming in one that never had any, so the baseline is the directory's own history.
 """
 import json
+import re
 import statistics
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -74,7 +75,7 @@ def judge(current, history, mapping=None, today=None, only_mapped=False, max_age
             _judge_dated(finding, facts["dated"], today, _longest(calendars, path))
         if "files" in facts:
             _judge_files(finding, facts["files"], previous.get(path, {}).get("files"))
-        _judge_progress(finding, path, facts, history)
+        _judge_progress(finding, path, facts, history, _longest(calendars, path), today)
         _judge_age(finding, path, facts, max_age, today)
     return findings
 
@@ -201,16 +202,34 @@ def _judge_files(finding, files, before):
                         f"in {before.get('rows', 0)})", worst)
 
 
-def _judge_progress(finding, path, facts, history):
-    """A directory whose newest date has not moved for several of its own cadences, across snapshots."""
-    newest = (facts.get("dated") or {}).get("newest") or (facts.get("files") or {}).get("newest_last")
-    if not newest or not history:
+_PERIOD = re.compile(r"/(\d{4})(\d{2})?$")
+
+
+def closed_period(path, today):
+    """A folder named after a month or year that has ended (brain/sentiment/30/201608): it never gets a newer date."""
+    match = _PERIOD.search(path)
+    if not match:
+        return False
+    year, month = int(match.group(1)), int(match.group(2) or 12)
+    if not 1990 <= year <= today.year + 1 or not 1 <= month <= 12:
+        return False
+    return (year, month) < (today.year, today.month)
+
+
+def _judge_progress(finding, path, facts, history, calendar=None, today=None):
+    """A directory whose newest date has not moved for several of its own cadences, across snapshots. Only dated
+    folders: the newest date of a per-entity folder comes from a sample of its files and moves with the sample.
+    Event-driven folders (calendar "none") and closed periods are left to the age check."""
+    newest = (facts.get("dated") or {}).get("newest")
+    if not newest or not history or (calendar or "").startswith("none"):
+        return
+    if closed_period(path, today or datetime.now(timezone.utc).date()):
         return
     seen = []
     for snapshot in history:
         old = _by_path(snapshot).get(path)
         if old:
-            old_newest = (old.get("dated") or {}).get("newest") or (old.get("files") or {}).get("newest_last")
+            old_newest = (old.get("dated") or {}).get("newest")
             seen.append((datetime.fromtimestamp(snapshot.get("at", 0), timezone.utc).date(), old_newest))
     if not seen:
         return

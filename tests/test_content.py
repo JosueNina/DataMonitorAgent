@@ -81,12 +81,31 @@ def _files(newest):
             "newest_last": newest}
 
 
+def _dated(newest):
+    return {"count": 1, "newest": newest, "recent": []}
+
+
 def test_newest_date_that_advanced_then_stopped_is_stale():
     path = "alternative/vendor/daily"
-    old = [snapshot([{"p": path, "files": _files("20260930")}], at=datetime(2026, 9, 30, tzinfo=timezone.utc)),
-           snapshot([{"p": path, "files": _files("20261001")}], at=datetime(2026, 10, 1, tzinfo=timezone.utc))]
-    current = snapshot([{"p": path, "files": _files("20261001")}])
+    old = [snapshot([{"p": path, "dated": _dated("20260930")}], at=datetime(2026, 9, 30, tzinfo=timezone.utc)),
+           snapshot([{"p": path, "dated": _dated("20261001")}], at=datetime(2026, 10, 1, tzinfo=timezone.utc))]
+    current = snapshot([{"p": path, "dated": _dated("20261001")}])
     assert "content_stale" in kinds(judge(current, old, today=TODAY))
+
+
+def test_closed_periods_event_driven_and_sampled_folders_are_never_stale():
+    # Brain Sentiment's month folders, an EODHD country calendar, and a per-ticker folder whose newest date comes
+    # from a sample of its files: none of them can be judged stale by the newest date across snapshots.
+    cases = [("alternative/brain/sentiment/30/202609", "dated", {}),
+             ("alternative/eodhd/economicevents/is", "dated", {"alternative/eodhd/economicevents": "none"}),
+             ("alternative/brain/report_10k", "files", {})]
+    for path, kind, calendars in cases:
+        def facts(newest, path=path, kind=kind):
+            return {"p": path, kind: _dated(newest) if kind == "dated" else _files(newest)}
+        old = [snapshot([facts("20260930")], at=datetime(2026, 9, 30, tzinfo=timezone.utc)),
+               snapshot([facts("20261001")], at=datetime(2026, 10, 1, tzinfo=timezone.utc))]
+        found = judge(snapshot([facts("20261001")]), old, today=TODAY, calendars=calendars)
+        assert "content_stale" not in kinds(found), path
 
 
 def test_a_folder_that_never_moved_while_watched_is_not_stale():
